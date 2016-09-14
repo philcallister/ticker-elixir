@@ -5,7 +5,9 @@ defmodule Ticker.SymbolSupervisor do
 
   def start_link do
     Logger.info("Starting Symbol Supervisor...")
-    Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
+    {:ok, pid} = Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
+    Ticker.SymbolConfig.add_config_symbols
+    {:ok, pid}
   end
 
   def add_symbol(symbol) do

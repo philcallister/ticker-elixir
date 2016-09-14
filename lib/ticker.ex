@@ -17,15 +17,7 @@ defmodule Ticker do
     ]
 
     opts = [strategy: :one_for_one, name: Ticker.Supervisor]
-    ret = Supervisor.start_link(children, opts)
-    add_config_symbols
-    ret
+    Supervisor.start_link(children, opts)
   end
-
-  defp add_config_symbols do
-    symbols = Application.get_env(:ticker, :symbols)
-    Enum.each(symbols, fn(s) -> Ticker.SymbolSupervisor.add_symbol(s) end)
-  end
-
 
 end
