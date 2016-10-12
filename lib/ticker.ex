@@ -13,7 +13,8 @@ defmodule Ticker do
     Logger.info("Starting Ticker OTP Application")
 
     children = [
-      supervisor(Ticker.SymbolSupervisor, [])
+      supervisor(Ticker.SymbolSupervisor, []),
+      worker(Ticker.QuoteProcessor, [])
     ]
 
     opts = [strategy: :one_for_one, name: Ticker.Supervisor]
