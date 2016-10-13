@@ -7,6 +7,7 @@ defmodule Ticker.QuoteProcessor do
 
   def start_link do
     Logger.info("Starting Quote Processor...")
+    HTTPoison.start
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
@@ -23,34 +24,32 @@ defmodule Ticker.QuoteProcessor do
 
   def handle_cast(:quotes, state) do
     symbol_servers = Supervisor.which_children(Ticker.SymbolSupervisor)
-    symbols = Enum.map(symbol_servers, fn({_, pid, _, _}) -> GenServer.call(pid, :symbol) end)
-    update_quotes(symbols)
-
+    symbols = Enum.map(symbol_servers, fn({_, pid, _, _}) -> Ticker.Symbol.get_symbol(pid) end)
+    symbols
+      |> fetch
+      |> decode
+      |> update
     {:noreply, state}
   end
 
-  defp update_quotes(symbols) do
+  defp fetch(symbols) do
     params = Enum.join(symbols, "%2C")
     url = "http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A#{params}"
-
     case HTTPoison.get(url) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> process(body)
-      {:ok, %HTTPoison.Response{status_code: 400}} -> IO.puts "Bad Request..."
-      {:ok, %HTTPoison.Response{status_code: 404}} -> IO.puts "Not found..."
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> body
+      {:ok, %HTTPoison.Response{status_code: 400}} -> Logger.error("Bad Request...")
+      {:ok, %HTTPoison.Response{status_code: 404}} -> Logger.error("Not found...")
       {:error, %HTTPoison.Error{reason: reason}} -> IO.inspect reason
     end
   end
 
-  defp process(body) do
+  defp decode(body) do
     hacked_body = String.replace_leading(body, "\n// ", "")
-    parsed = Poison.decode!(hacked_body)
-    as =
-      cond do
-        is_map(parsed) -> %Ticker.Quote{}
-        is_list(parsed) -> [%Ticker.Quote{}]
-      end
-    decoded = Poison.Decoder.decode(parsed, as: as)
-    IO.puts(inspect(decoded))
+    Poison.decode!(hacked_body, as: [%Ticker.Quote{}])
+  end
+
+  defp update(quotes) when is_list(quotes) do
+    Enum.each(quotes, fn(q) -> Ticker.Symbol.set_quote(q.t, q) end)
   end
 
 end
