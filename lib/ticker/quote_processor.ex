@@ -33,8 +33,9 @@ defmodule Ticker.QuoteProcessor do
   end
 
   defp fetch(symbols) do
+    base_url = Application.get_env(:ticker, :url)
     params = Enum.join(symbols, "%2C")
-    url = "http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A#{params}"
+    url = "#{base_url}#{params}"
     case HTTPoison.get(url) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> body
       {:ok, %HTTPoison.Response{status_code: 400}} -> Logger.error("Bad Request...")
