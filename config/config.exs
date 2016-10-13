@@ -21,7 +21,7 @@ use Mix.Config
 #     config :logger, level: :info
 #
 config :ticker,
-  symbols: ["TSLA", "GOOG", "VOO"],
+  symbols: ["TSLA", "GOOG", "AAPL", "TWTR", "FB", "MMM", "GLD", "VOO"],
   url: "http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A"
 
 # It is also possible to import configuration files, relative to this
