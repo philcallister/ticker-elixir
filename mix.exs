@@ -15,7 +15,7 @@ defmodule Ticker.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [mod: {Ticker, []},
-     applications: [:logger, :httpoison]]
+     applications: [:logger, :gproc, :httpoison]]
   end
 
   # Dependencies can be Hex packages:
@@ -29,6 +29,7 @@ defmodule Ticker.Mixfile do
   # Type "mix help deps" for more examples and options
   def deps do
     [
+      {:gproc, "~> 0.5.0"},
       {:poison, "~> 3.0"},
       {:httpoison, "~> 0.9.0"}
     ]

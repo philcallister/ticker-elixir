@@ -10,8 +10,8 @@ defmodule Ticker.QuoteProcessor do
     GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
   end
 
-  def quote(pid) do
-    GenServer.cast(pid, {:quote})
+  def quotes do
+    GenServer.cast(__MODULE__, :quotes)
   end
 
 
@@ -21,19 +21,36 @@ defmodule Ticker.QuoteProcessor do
     {:ok, %{}}
   end
 
-  def handle_cast(:quote, state) do
+  def handle_cast(:quotes, state) do
     symbol_servers = Supervisor.which_children(Ticker.SymbolSupervisor)
     symbols = Enum.map(symbol_servers, fn({_, pid, _, _}) -> GenServer.call(pid, :symbol) end)
-    generate_quote(symbols)
+    update_quotes(symbols)
+
     {:noreply, state}
   end
 
-  defp generate_quote(symbols) do
-    params = symbols
-      |> Enum.map(fn(s) -> "%22#{s}%22" end) 
-      |> Enum.join("%2C")
-    url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20yahoo.finance.quotes%20where%20symbol%20in%20(#{params})&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys&callback="
-    IO.puts(inspect(HTTPoison.get! url))
+  defp update_quotes(symbols) do
+    params = Enum.join(symbols, "%2C")
+    url = "http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A#{params}"
+
+    case HTTPoison.get(url) do
+      {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> process(body)
+      {:ok, %HTTPoison.Response{status_code: 400}} -> IO.puts "Bad Request..."
+      {:ok, %HTTPoison.Response{status_code: 404}} -> IO.puts "Not found..."
+      {:error, %HTTPoison.Error{reason: reason}} -> IO.inspect reason
+    end
+  end
+
+  defp process(body) do
+    hacked_body = String.replace_leading(body, "\n// ", "")
+    parsed = Poison.decode!(hacked_body)
+    as =
+      cond do
+        is_map(parsed) -> %Ticker.Quote{}
+        is_list(parsed) -> [%Ticker.Quote{}]
+      end
+    decoded = Poison.Decoder.decode(parsed, as: as)
+    IO.puts(inspect(decoded))
   end
 
 end
