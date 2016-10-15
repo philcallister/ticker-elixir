@@ -12,6 +12,7 @@ defmodule Ticker.QuoteProcessor do
   end
 
   def quotes do
+    Logger.info("Loading quotes...")
     GenServer.cast(__MODULE__, :quotes)
   end
 
