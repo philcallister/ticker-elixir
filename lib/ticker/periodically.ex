@@ -22,4 +22,5 @@ defmodule Ticker.Periodically do
   defp schedule_work do
     Process.send_after(self(), :work, 60_000) # 1 Minute
   end
+
 end
