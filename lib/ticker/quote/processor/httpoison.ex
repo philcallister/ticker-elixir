@@ -1,6 +1,6 @@
 require Logger
 
-defmodule Ticker.Quote.HTTPoison do
+defmodule Ticker.Quote.Processor.HTTPoison do
 
   @behaviour Ticker.Quote.Processor.Behaviour
 
