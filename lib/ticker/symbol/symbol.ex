@@ -10,6 +10,10 @@ defmodule Ticker.Symbol do
     GenServer.start_link(__MODULE__, {:ok, name}, name: via_tuple(name))
   end
 
+  def get_pid(name) do
+    :gproc.where({:n, :l, {__MODULE__, name}})
+  end
+
   def get_symbol(pid) when is_pid(pid) do
     GenServer.call(pid, :get_symbol)
   end

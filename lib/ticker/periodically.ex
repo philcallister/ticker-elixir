@@ -14,7 +14,7 @@ defmodule Ticker.Periodically do
   end
 
   def handle_info(:work, state) do
-    Ticker.QuoteProcessor.quotes
+    Ticker.Quote.Processor.quotes
     schedule_work() # Reschedule work
     {:noreply, state}
   end

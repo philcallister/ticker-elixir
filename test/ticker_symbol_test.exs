@@ -2,13 +2,10 @@ defmodule Ticker.Symbol.Test do
   use ExUnit.Case, async: true
 
   @symbol "TSLA"
-  @quote %Ticker.Quote{ c: "-4.46", c_fix: "-4.46", ccol: "chr", cp: "-2.19",
-      cp_fix: "-2.19", div: "", e: "NASDAQ", ec: "-0.55", ec_fix: "-0.55",
-      eccol: "chr", ecp: "-0.28", ecp_fix: "-0.28", el: "198.55", el_cur: "198.55",
-      el_fix: "198.55", elt: "Oct 20, 7:59PM EDT", id: "12607212", l: "199.10",
-      l_cur: "199.10", l_fix: "199.10", lt: "Oct 20, 4:00PM EDT",
-      lt_dts: "2016-10-20T16:00:01Z", ltt: "4:00PM EDT", pcls_fix: "203.56", s: "2",
-      t: "TSLA", yld: "" }
+  @quote %Ticker.Quote{c: "+1.02", c_fix: "1.02", ccol: "chg", cp: "0.51",
+      cp_fix: "0.51", e: "NASDAQ", id: "12607212", l: "200.12", l_cur: "200.12",
+      l_fix: "200.12", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:15Z",
+      ltt: "11:47AM EDT", pcls_fix: "199.1", s: "0", t: "TSLA"}
 
   test "get symbol" do
     state = %{:symbol => @symbol, :quote => %Ticker.Quote{}}

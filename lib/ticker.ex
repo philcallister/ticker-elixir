@@ -13,8 +13,8 @@ defmodule Ticker do
     Logger.info("Starting Ticker OTP Application")
 
     children = [
-      supervisor(Ticker.SymbolSupervisor, []),
-      worker(Ticker.QuoteProcessor, []),
+      supervisor(Ticker.Symbol.Supervisor, []),
+      worker(Ticker.Quote.Processor, []),
       worker(Ticker.Periodically, [])
     ]
 

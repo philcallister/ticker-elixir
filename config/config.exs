@@ -21,6 +21,7 @@ use Mix.Config
 #     config :logger, level: :info
 #
 config :ticker,
+  processor: Ticker.Quote.HTTPoison,
   symbols: ["TSLA", "GOOG", "AAPL", "TWTR", "FB", "MMM", "GLD", "VOO"],
   url: "http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A"
 

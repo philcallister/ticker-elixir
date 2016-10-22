@@ -1,12 +1,12 @@
 require Logger
 
-defmodule Ticker.SymbolSupervisor do
+defmodule Ticker.Symbol.Supervisor do
   use Supervisor
 
   def start_link do
     Logger.info("Starting Symbol Supervisor...")
     {:ok, pid} = Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
-    Ticker.SymbolConfig.add_config_symbols
+    add_config_symbols
     {:ok, pid}
   end
 
@@ -14,11 +14,20 @@ defmodule Ticker.SymbolSupervisor do
     Supervisor.start_child(__MODULE__, [symbol])
   end
 
+  def add_symbols(symbols) do
+    Enum.each(symbols, fn(s) -> add_symbol(s) end)
+  end
+
   def init(:ok) do
     children = [
       worker(Ticker.Symbol, [], restart: :transient)
     ]
     supervise(children, strategy: :simple_one_for_one)
+  end
+
+  defp add_config_symbols do
+    symbols = Application.get_env(:ticker, :symbols)
+    add_symbols(symbols)
   end
 
 end
