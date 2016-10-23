@@ -9,7 +9,6 @@ defmodule Ticker.Quote.Processor.HTTPoison do
     symbols
       |> fetch
       |> decode
-      |> update
   end
 
   defp fetch(symbols) do
@@ -31,13 +30,6 @@ defmodule Ticker.Quote.Processor.HTTPoison do
   defp decode(body) do
     hacked_body = String.replace_leading(body, "\n// ", "")
     Poison.decode!(hacked_body, as: [%Ticker.Quote{}])
-  end
-
-  defp update(quotes) when is_list(quotes) do
-    Enum.each(quotes, fn(q) ->
-      if Ticker.Symbol.get_pid(q.t) == :undefined, do: Ticker.Symbol.Supervisor.add_symbol(q.t)
-      Ticker.Symbol.set_quote(q.t, q)
-    end)
   end
 
 end

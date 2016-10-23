@@ -29,8 +29,19 @@ defmodule Ticker.Quote.Processor do
   def handle_cast(:quotes, state) do
     symbol_servers = Supervisor.which_children(Ticker.Symbol.Supervisor)
     symbols = Enum.map(symbol_servers, fn({_, pid, _, _}) -> Ticker.Symbol.get_symbol(pid) end)
-    @processor.process(symbols)
+    symbols
+      |> @processor.process
+      |> update
     {:noreply, state}
+  end
+
+  defp update(quotes) when is_list(quotes) do
+    Enum.each(quotes, fn(q) ->
+      if Ticker.Symbol.get_pid(q.t) == :undefined do
+        Ticker.Symbol.Supervisor.add_symbol(q.t)
+      end
+      Ticker.Symbol.set_quote(q.t, q)
+    end)
   end
 
 end

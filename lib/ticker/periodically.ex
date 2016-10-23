@@ -3,24 +3,28 @@ require Logger
 defmodule Ticker.Periodically do
   use GenServer
 
-  def start_link do
+  def start_link(work_fn, interval, on_start \\ true) do
     Logger.info("Starting Periodic Work Scheduler...")
-    GenServer.start_link(__MODULE__, :ok, name: __MODULE__)
+    GenServer.start_link(__MODULE__, {:ok, work_fn, interval, on_start}, name: __MODULE__)
   end
 
-  def init(:ok) do
-    schedule_work # Schedule work to be performed at some point
-    {:ok, %{}}
+  def init({:ok, work_fn, interval, on_start}) do
+    schedule_work(work_fn, interval, on_start)
+    {:ok, nil}
   end
 
-  def handle_info(:work, state) do
-    Ticker.Quote.Processor.quotes
-    schedule_work() # Reschedule work
+  def handle_info({:work, work_fn, interval}, state) do
+    work_fn.()
+    schedule_work(work_fn, interval, false) # Reschedule work
     {:noreply, state}
   end
 
-  defp schedule_work do
-    Process.send_after(self(), :work, 60_000) # 1 Minute
+  defp schedule_work(work_fn, interval, on_start) when on_start do
+    Process.send_after(self(), {:work, work_fn, interval}, 0)
+  end
+
+  defp schedule_work(work_fn, interval, _) do
+    Process.send_after(self(), {:work, work_fn, interval}, interval)
   end
 
 end
