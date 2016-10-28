@@ -16,7 +16,8 @@ defmodule Ticker.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [mod: {Ticker, []},
-     applications: [:logger, :gproc, :httpoison]]
+     applications: [:logger, :gproc, :httpoison],
+     included_applications: [:distillery, :conform, :poison]]
   end
 
   # Dependencies can be Hex packages:
@@ -31,8 +32,10 @@ defmodule Ticker.Mixfile do
   def deps do
     [
       {:gproc, "~> 0.5.0"},
-      {:poison, "~> 3.0"},
-      {:httpoison, "~> 0.9.0"}
+      {:poison, "~> 2.0"},
+      {:httpoison, "~> 0.9.0"},
+      {:distillery, "~> 0.10"},
+      {:conform, "~> 2.1", override: true}
     ]
   end
 

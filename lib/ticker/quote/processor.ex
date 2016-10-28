@@ -23,7 +23,7 @@ defmodule Ticker.Quote.Processor do
   ## Server callbacks
 
   def init(:ok) do
-    {:ok, %{}}
+    {:ok, nil}
   end
 
   def handle_cast(:quotes, state) do
@@ -35,7 +35,7 @@ defmodule Ticker.Quote.Processor do
     {:noreply, state}
   end
 
-  defp update(quotes) when is_list(quotes) do
+  defp update(quotes) do
     Enum.each(quotes, fn(q) ->
       if Ticker.Symbol.get_pid(q.t) == :undefined do
         Ticker.Symbol.Supervisor.add_symbol(q.t)
