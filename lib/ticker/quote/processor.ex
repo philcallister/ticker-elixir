@@ -3,9 +3,6 @@ require Logger
 defmodule Ticker.Quote.Processor do
   use GenServer
 
-  @processor Application.get_env(:ticker, :processor)
-
-
   ## Client API
 
   def start_link do
@@ -27,10 +24,11 @@ defmodule Ticker.Quote.Processor do
   end
 
   def handle_cast(:quotes, state) do
+    processor = Application.get_env(:ticker, :processor)
     symbol_servers = Supervisor.which_children(Ticker.Symbol.Supervisor)
     symbols = Enum.map(symbol_servers, fn({_, pid, _, _}) -> Ticker.Symbol.get_symbol(pid) end)
     symbols
-      |> @processor.process
+      |> processor.process
       |> update
     {:noreply, state}
   end
