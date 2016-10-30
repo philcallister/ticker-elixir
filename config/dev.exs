@@ -1,4 +1,5 @@
 use Mix.Config
 
 config :ticker,
-  processor: Ticker.Quote.Processor.HTTPoison
+  notify_module: Ticker.Periodic.Notify,
+  notify_fn: :on

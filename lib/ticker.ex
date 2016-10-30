@@ -14,8 +14,7 @@ defmodule Ticker do
 
     children = [
       supervisor(Ticker.Symbol.Supervisor, []),
-      worker(Ticker.Quote.Processor, []),
-      worker(Ticker.Periodically, [fn -> Ticker.Quote.Processor.quotes end, 60_000])
+      worker(Ticker.Periodically, [fn -> Ticker.Periodic.Timer.on end, 60_000])
     ]
 
     opts = [strategy: :one_for_one, name: Ticker.Supervisor]
