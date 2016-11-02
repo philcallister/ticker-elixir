@@ -44,19 +44,19 @@ iex -S mix ticker.server
 
 1. Add `ticker` to your list of dependencies in `mix.exs`:
 
-```elixir
-def deps do
-	[{:ticker, git: "https://github.com/philcallister/ticker.git"}]
-end
-```
+	```elixir
+	def deps do
+		[{:ticker, git: "https://github.com/philcallister/ticker.git"}]
+	end
+	```
 
 2. Ensure `ticker` is started before your application:
 
-```elixir
-def application do
-	[applications: [:ticker]]
-end
-```
+	```elixir
+	def application do
+		[applications: [:ticker]]
+	end
+	```
 
 ## License
 
