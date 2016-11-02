@@ -1,24 +1,65 @@
-# Ticker
+# ticker
 
-**TODO: Add description**
+**ticker** is an example Elixir OTP app which periodically pulls configured quotes from the (defunct but still available) Google Finance API and stores these quotes within symbol GenServers. A callback can be configured to notify when the quotes have been updated. While currently not implemented at this time, it might be interesting to build an adapter layer to configure the OTP app for different quote APIs.
 
-## Installation
+To see the **ticker** app in action, head over to [ticker-phoenix](https://github.com/philcallister/ticker-phoenix) Elixir Phoenix app.
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
+## Environment
 
-  1. Add `ticker` to your list of dependencies in `mix.exs`:
+The sample was developed using the following 
 
-    ```elixir
-    def deps do
-      [{:ticker, "~> 0.1.0"}]
-    end
-    ```
+- Elixir 1.3.0
+- OS X El Capitan (10.11)
 
-  2. Ensure `ticker` is started before your application:
+## Setup
 
-    ```elixir
-    def application do
-      [applications: [:ticker]]
-    end
-    ```
+Clone Repo
+```bash
+git clone https://github.com/philcallister/ticker.git
+```
 
+Dependencies
+```bash
+mix deps.get
+```
+```bash
+mix deps.compile
+```
+
+## Run It
+
+Start the server
+
+```bash
+mix ticker.server
+```
+
+OR within ```iex```
+
+```bash
+iex -S mix ticker.server
+```
+
+## Installation within OTP app 
+
+1. Add `ticker` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+	[{:ticker, git: "https://github.com/philcallister/ticker.git"}]
+end
+```
+
+2. Ensure `ticker` is started before your application:
+
+```elixir
+def application do
+	[applications: [:ticker]]
+end
+```
+
+## License
+
+[MIT License](http://www.opensource.org/licenses/MIT)
+
+**Free Software, Hell Yeah!**
