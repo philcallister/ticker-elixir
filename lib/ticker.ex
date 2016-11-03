@@ -12,9 +12,11 @@ defmodule Ticker do
 
     Logger.info("Starting Ticker OTP Application")
 
+    frequency = Application.get_env(:ticker, :frequency, 60_000)
+
     children = [
       supervisor(Ticker.Symbol.Supervisor, []),
-      worker(Ticker.Periodically, [fn -> Ticker.Periodic.Timer.on end, 60_000])
+      worker(Ticker.Periodically, [fn -> Ticker.Periodic.Timer.on end, frequency])
     ]
 
     opts = [strategy: :one_for_one, name: Ticker.Supervisor]
