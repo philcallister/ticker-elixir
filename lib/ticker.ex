@@ -10,7 +10,7 @@ defmodule Ticker do
   def start(_type, _args) do
     import Supervisor.Spec
 
-    Logger.info("Starting Ticker OTP Application")
+    Logger.info("Starting Ticker OTP Application...")
 
     frequency = Application.get_env(:ticker, :frequency, 60_000)
 
