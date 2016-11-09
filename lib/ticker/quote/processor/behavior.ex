@@ -8,6 +8,6 @@ defmodule Ticker.Quote.Processor.Behaviour do
   @doc """
   process the given quotes
   """
-  @callback process(symbols :: list) :: any
+  @callback process(symbols :: list) :: [%Ticker.Quote{}]
 
 end

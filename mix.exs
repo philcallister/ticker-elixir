@@ -16,7 +16,7 @@ defmodule Ticker.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [mod: {Ticker, []},
-     applications: [:logger, :gproc, :httpoison],
+     applications: [:logger, :timex, :gproc, :httpoison],
      included_applications: [:distillery, :conform, :poison]]
   end
 
@@ -31,6 +31,7 @@ defmodule Ticker.Mixfile do
   # Type "mix help deps" for more examples and options
   def deps do
     [
+      {:timex, "~> 3.0"},
       {:gproc, "~> 0.5.0"},
       {:poison, "~> 2.0"},
       {:httpoison, "~> 0.9.0"},
