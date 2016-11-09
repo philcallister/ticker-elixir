@@ -79,13 +79,37 @@ See the moduledoc for `Conform.Schema.Validator` for more details and examples.
       hidden: false,
       to: "ticker.url"
     ],
+    "ticker.frequency": [
+      commented: false,
+      datatype: :integer,
+      default: 5000,
+      doc: "Provide documentation for ticker.frequency here.",
+      hidden: false,
+      to: "ticker.frequency"
+    ],
     "ticker.processor": [
       commented: false,
       datatype: :atom,
-      default: Ticker.Quote.Processor.HTTPoison,
+      default: Ticker.Quote.Processor.Simulate,
       doc: "Provide documentation for ticker.processor here.",
       hidden: false,
       to: "ticker.processor"
+    ],
+    "ticker.notify_module": [
+      commented: false,
+      datatype: :atom,
+      default: Ticker.Periodic.Notify,
+      doc: "Provide documentation for ticker.notify_module here.",
+      hidden: false,
+      to: "ticker.notify_module"
+    ],
+    "ticker.notify_fn": [
+      commented: false,
+      datatype: :atom,
+      default: :on,
+      doc: "Provide documentation for ticker.notify_fn here.",
+      hidden: false,
+      to: "ticker.notify_fn"
     ]
   ],
   transforms: [],
