@@ -15,9 +15,7 @@ defmodule Ticker.Quote.Processor.Simulate do
     current_quote
       |> move_quote()
       |> set_quote()
-    Enum.map(symbols, fn(s) ->
-      Map.merge(move_quote(current_quote), %{t: s})
-    end)
+    Enum.map(symbols, fn(s) -> %{move_quote(current_quote) | t: s} end)
   end
 
   defp set_quote(new_value) do
@@ -30,7 +28,7 @@ defmodule Ticker.Quote.Processor.Simulate do
 
   defp move_quote(from_quote) do
     initial_quote = from_quote |> Ticker.Quote.as_type(:float)
-    direction = Enum.random([-1, 1])
+    direction = Enum.random([-1, 0, 0, 0, 1])
     delta = :rand.uniform()
       |> Float.round(2)
       |> Kernel.*(direction)

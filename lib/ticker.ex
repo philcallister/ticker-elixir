@@ -20,7 +20,7 @@ defmodule Ticker do
     ]
 
     # TODO: Would be nice to start this in another place. Really shouldn't have to
-    # know the processesor at this point.
+    # know the processor at this point.
     processor = Application.get_env(:ticker, :processor)
     children = case processor do
       Ticker.Quote.Processor.Simulate -> [worker(Ticker.Quote.Processor.Simulate, [])|initial_children]
