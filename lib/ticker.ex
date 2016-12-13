@@ -15,7 +15,7 @@ defmodule Ticker do
     frequency = Application.get_env(:ticker, :frequency, 60_000)
 
     initial_children = [
-      supervisor(Ticker.Symbol.Supervisor, []),
+      supervisor(Ticker.Security.Supervisor, []),
       worker(Ticker.Periodically, [fn -> Ticker.Periodic.Timer.on end, frequency])
     ]
 
@@ -23,7 +23,7 @@ defmodule Ticker do
     # know the processor at this point.
     processor = Application.get_env(:ticker, :processor)
     children = case processor do
-      Ticker.Quote.Processor.Simulate -> [worker(Ticker.Quote.Processor.Simulate, [])|initial_children]
+      Ticker.Quote.Processor.Simulate -> [worker(Ticker.Quote.Processor.Simulate, []) | initial_children]
       _ -> initial_children
     end
 

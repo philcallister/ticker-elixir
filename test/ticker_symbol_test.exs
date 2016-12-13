@@ -29,10 +29,10 @@ defmodule Ticker.Symbol.Test do
     assert response == @quote
   end
 
-  test "set quote" do
-    state = %{:symbol => @symbol, :quote => %Ticker.Quote{}}
-    {:noreply, newstate} = Ticker.Symbol.handle_cast({:set_quote, @quote}, state)
-    assert newstate == %{:symbol => @symbol, :quote => @quote}
-  end
+  # test "add quote" do
+  #   state = %{:symbol => @symbol, :quote => %Ticker.Quote{}, :quotes => [], :minute => nil}
+  #   {:noreply, newstate} = Ticker.Symbol.handle_cast({:add_quote, @quote}, state)
+  #   assert newstate == %{:symbol => @symbol, :quote => @quote, :quotes => [@quote], :minute => 47}
+  # end
 
 end

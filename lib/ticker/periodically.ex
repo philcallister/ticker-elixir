@@ -9,7 +9,7 @@ defmodule Ticker.Periodically do
   end
 
   def init({:ok, work_fn, interval, on_start}) do
-    schedule_work(work_fn, interval, on_start)
+    if interval > 0, do: schedule_work(work_fn, interval, on_start)
     {:ok, nil}
   end
 

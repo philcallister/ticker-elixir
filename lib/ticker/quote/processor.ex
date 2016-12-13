@@ -4,9 +4,8 @@ defmodule Ticker.Quote.Processor do
 
   def quotes do
     Logger.info("Loading quotes...")
-    symbol_servers = Supervisor.which_children(Ticker.Symbol.Supervisor)
-    symbols = Enum.map(symbol_servers, fn({_, pid, _, _}) -> Ticker.Symbol.get_symbol(pid) end)
-    process(symbols)
+    symbol_servers = :gproc.lookup_pids({:n, :l, {Ticker.Symbol, :"_"}})
+    Enum.map(symbol_servers, fn(ss) -> Ticker.Symbol.get_symbol(ss) end) |> process
   end
 
   defp process([]) do
@@ -26,9 +25,9 @@ defmodule Ticker.Quote.Processor do
   defp update(quotes) do
     Enum.each(quotes, fn(q) ->
       if Ticker.Symbol.get_pid(q.t) == :undefined do
-        Ticker.Symbol.Supervisor.add_symbol(q.t)
+        Ticker.Security.Supervisor.add_security(q.t)
       end
-      Ticker.Symbol.set_quote(q.t, q)
+      Ticker.Symbol.add_quote(q.t, q)
     end)
     {:ok, quotes}
   end
