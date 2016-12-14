@@ -1,4 +1,5 @@
 defmodule Ticker.Frame do
+  @derive [Poison.Encoder]
   defstruct [
     :open,
     :high,
