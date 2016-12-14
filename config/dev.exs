@@ -3,5 +3,5 @@ use Mix.Config
 config :ticker,
   frequency: 5_000,
   processor: Ticker.Quote.Processor.Simulate,
-  notify_module: Ticker.Periodic.Notify,
-  notify_fn: :on
+  quote_notify: [notify_module: Ticker.Notify.Log, notify_fn: :info],
+  frame_notify: [notify_module: Ticker.Notify.Log, notify_fn: :info]

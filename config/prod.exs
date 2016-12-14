@@ -1,5 +1,5 @@
 use Mix.Config
 
 config :ticker,
-  notify_module: :none,
-  notify_fn: :none
+  quote_notify: [notify_module: :none, notify_fn: :none],
+  frame_notify: [notify_module: :none, notify_fn: :none]

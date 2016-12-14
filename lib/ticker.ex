@@ -14,17 +14,18 @@ defmodule Ticker do
 
     frequency = Application.get_env(:ticker, :frequency, 60_000)
 
-    initial_children = [
+    children = [
       supervisor(Ticker.Security.Supervisor, []),
-      worker(Ticker.Periodically, [fn -> Ticker.Periodic.Timer.on end, frequency])
+      worker(Ticker.Periodic.Periodically, [fn -> Ticker.Periodic.Timer.quotes end, frequency]),
+      worker(Ticker.Notify.Frame, [])
     ]
 
     # TODO: Would be nice to start this in another place. Really shouldn't have to
     # know the processor at this point.
     processor = Application.get_env(:ticker, :processor)
     children = case processor do
-      Ticker.Quote.Processor.Simulate -> [worker(Ticker.Quote.Processor.Simulate, []) | initial_children]
-      _ -> initial_children
+      Ticker.Quote.Processor.Simulate -> [worker(Ticker.Quote.Processor.Simulate, []) | children]
+      _ -> children
     end
 
     opts = [strategy: :one_for_one, name: Ticker.Supervisor]

@@ -24,8 +24,7 @@ config :ticker,
   processor: Ticker.Quote.Processor.HTTP,
   symbols: ["TSLA", "GOOG", "AAPL", "TWTR", "FB", "MMM", "GLD", "VOO"],
   url: "http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A",
-  notify_module: :none,
-  notify_fn: :none
+  quote_notify: [notify_module: :none, notify_fn: :none]
 
 # It is also possible to import configuration files, relative to this
 # directory. For example, you can emulate configuration per environment

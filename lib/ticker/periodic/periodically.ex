@@ -1,6 +1,6 @@
 require Logger
 
-defmodule Ticker.Periodically do
+defmodule Ticker.Periodic.Periodically do
   use GenServer
 
   def start_link(work_fn, interval, on_start \\ true) do

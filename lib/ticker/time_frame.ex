@@ -1,6 +1,6 @@
 require Logger
 
-defmodule Ticker.Symbol.TimeFrame do
+defmodule Ticker.TimeFrame do
   use GenServer
 
   alias Ticker.Frame
@@ -33,7 +33,10 @@ defmodule Ticker.Symbol.TimeFrame do
 
   def handle_cast({:rollup_quotes, quotes}, state) do
     frame = Frame.quotes_to_frame(quotes)
-    frame_key = process_frame(frame, state)
+    frame_key = state[:frame_key] + 1
+    frame
+      |> process(frame_key, state)
+      |> notify(state[:interval])
     {:noreply,  %{:name => state[:name], :interval => state[:interval], :frame_count => state[:frame_count], :next_intervals => state[:next_intervals], :frames => [], :frame_key => frame_key}}
   end
 
@@ -45,7 +48,10 @@ defmodule Ticker.Symbol.TimeFrame do
       length(current_frames) >= state[:frame_count] ->
         {included, excluded} = Enum.split(current_frames, state[:frame_count])
         frame = Frame.frames_to_frame(included)
-        frame_key_update = process_frame(frame, state)
+        frame_key_update = state[:frame_key] + 1
+        frame
+          |> process(frame_key_update, state)
+          |> notify(state[:interval])
         {excluded, frame_key_update}
 
       # Not enough frames to process
@@ -58,19 +64,22 @@ defmodule Ticker.Symbol.TimeFrame do
     :"#{name}_#{interval}"
   end
 
-  defp process_frame(frame, state) do
-    IO.puts "***** FRAME: #{state[:name]} | INTERVAL: #{state[:interval]}"
-    frame_key = state[:frame_key] + 1
+  defp process(frame, frame_key, state) do
+    Logger.info "***** Symbol: #{state[:name]} | Interval: #{state[:interval]}"
     :ets.insert(ets_table_name(state[:name], state[:interval]), {frame_key, frame})
     if state[:next_intervals] do
-      Enum.each(state[:next_intervals], fn(i) -> Ticker.Symbol.TimeFrame.rollup_frames(state[:name], i, [frame]) end)
+      Enum.each(state[:next_intervals], fn(i) -> Ticker.TimeFrame.rollup_frames(state[:name], i, [frame]) end)
     end
-    frame_key
+    frame
+  end
+
+  defp notify(frame, interval) do
+    Ticker.Notify.Frame.notify(frame, interval)
   end
 
 end
 
-defmodule Ticker.Symbol.TimeFrame.Supervisor do
+defmodule Ticker.TimeFrame.Supervisor do
   use Supervisor
 
   @intervals [{1, :none, [2,5]}, {2, 2, nil}, {5, 5, [15]}, {15, 3, [30]}, {30, 2, [60]}, {60, 2, nil}]
@@ -91,7 +100,7 @@ defmodule Ticker.Symbol.TimeFrame.Supervisor do
 
   def init({:ok}) do
     children = [
-      worker(Ticker.Symbol.TimeFrame, [])
+      worker(Ticker.TimeFrame, [])
     ]
     supervise(children, strategy: :simple_one_for_one)
   end

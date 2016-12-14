@@ -4,7 +4,7 @@ defmodule Ticker.Symbol do
   use GenServer
   use Timex
 
-  alias Ticker.Symbol.TimeFrame
+  alias Ticker.TimeFrame
 
   ## Client API
 
@@ -90,7 +90,7 @@ defmodule Ticker.Symbol.Supervisor do
 
   def init({:ok, name}) do
     children = [
-      supervisor(Ticker.Symbol.TimeFrame.Supervisor, [name]),
+      supervisor(Ticker.TimeFrame.Supervisor, [name]),
       worker(Ticker.Symbol, [name])
     ]
     supervise(children, strategy: :one_for_one)
