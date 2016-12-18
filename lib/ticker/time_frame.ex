@@ -32,11 +32,11 @@ defmodule Ticker.TimeFrame do
   end
 
   def handle_cast({:rollup_quotes, quotes}, state) do
-    frame = Frame.quotes_to_frame(quotes)
+    frame = Frame.quotes_to_frame(state[:name], state[:interval], quotes)
     frame_key = state[:frame_key] + 1
     frame
       |> process(frame_key, state)
-      |> notify(state[:interval])
+      |> notify
     {:noreply,  %{:name => state[:name], :interval => state[:interval], :frame_count => state[:frame_count], :next_intervals => state[:next_intervals], :frames => [], :frame_key => frame_key}}
   end
 
@@ -47,11 +47,11 @@ defmodule Ticker.TimeFrame do
       # Process only given frame count
       length(current_frames) >= state[:frame_count] ->
         {included, excluded} = Enum.split(current_frames, state[:frame_count])
-        frame = Frame.frames_to_frame(included)
+        frame = Frame.frames_to_frame(state[:name], state[:interval], included)
         frame_key_update = state[:frame_key] + 1
         frame
           |> process(frame_key_update, state)
-          |> notify(state[:interval])
+          |> notify
         {excluded, frame_key_update}
 
       # Not enough frames to process
@@ -73,8 +73,8 @@ defmodule Ticker.TimeFrame do
     frame
   end
 
-  defp notify(frame, interval) do
-    Ticker.Notify.Frame.notify(frame, interval)
+  defp notify(frame) do
+    Ticker.Notify.Frame.notify(frame)
   end
 
 end
