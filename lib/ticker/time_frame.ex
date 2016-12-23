@@ -18,6 +18,12 @@ defmodule Ticker.TimeFrame do
     GenServer.cast(via_tuple({name, interval}), {:rollup_frames, frames})
   end
 
+  # TODO: Create a module that exposes a facade-like interface to all externally
+  # facing functionallity. This should be in that interface
+  def get_frames(name, interval) do
+    GenServer.call(via_tuple({name, interval}), :get_frames)
+  end
+
   defp via_tuple({name, interval}) do
     {:via, :gproc, {:n, :l, {__MODULE__, name, interval}}}
   end
@@ -58,6 +64,11 @@ defmodule Ticker.TimeFrame do
       true -> {current_frames, state[:frame_key]}
     end
     {:noreply,  %{:name => state[:name], :interval => state[:interval], :frame_count => state[:frame_count], :next_intervals => state[:next_intervals], :frames => remaining_frames, :frame_key => frame_key}}
+  end
+
+  def handle_call(:get_frames, _from, state) do
+    frames = :ets.match_object(ets_table_name(state[:name], state[:interval]), {:"_", :"_"})
+    {:reply, frames, state}
   end
 
   defp ets_table_name(name, interval) do
