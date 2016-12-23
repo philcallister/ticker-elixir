@@ -33,7 +33,7 @@ defmodule Ticker.TimeFrame do
 
   def init({:ok, {name, interval, frame_count, next_intervals}}) do
     table_name = ets_table_name(name, interval)
-    :ets.new(table_name, [:set, :protected, :named_table])
+    :ets.new(table_name, [:ordered_set, :protected, :named_table])
     {:ok, %{:name => name, :interval => interval, :frame_count => frame_count, :next_intervals => next_intervals, :frames => [], :frame_key => 0}}
   end
 
