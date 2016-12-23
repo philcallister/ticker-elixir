@@ -67,7 +67,8 @@ defmodule Ticker.TimeFrame do
   end
 
   def handle_call(:get_frames, _from, state) do
-    frames = :ets.match_object(ets_table_name(state[:name], state[:interval]), {:"_", :"_"})
+    records = :ets.match_object(ets_table_name(state[:name], state[:interval]), {:"_", :"_"})
+    frames = Enum.map(records, fn({_, frame}) -> frame end)
     {:reply, frames, state}
   end
 
