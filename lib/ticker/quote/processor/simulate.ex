@@ -19,7 +19,7 @@ defmodule Ticker.Quote.Processor.Simulate do
   def historical(symbols) do
     dt = Timex.shift(Timex.now, hours: -@historical_hours)
     Interval.new(from: dt, until: [hours: @historical_hours], step: [minutes: 1])
-      |> Enum.map(fn(i) -> process(symbols, i) end)
+      |> Enum.map(fn(i) -> Enum.map(1..4, fn(_) -> process(symbols, i) end) end)
       |> List.flatten
   end
 
