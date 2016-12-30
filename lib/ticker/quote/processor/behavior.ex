@@ -10,4 +10,9 @@ defmodule Ticker.Quote.Processor.Behaviour do
   """
   @callback process(symbols :: list) :: [%Ticker.Quote{}]
 
+  @doc """
+  build historical for given symbols
+  """
+  @callback historical(symbols :: list) :: [%Ticker.Quote{}]
+
 end

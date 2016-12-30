@@ -22,6 +22,7 @@ use Mix.Config
 #
 config :ticker,
   processor: Ticker.Quote.Processor.HTTP,
+  historical: false,
   symbols: ["TSLA", "GOOG", "AAPL", "TWTR", "FB", "MMM", "GLD", "VOO"],
   url: "http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A",
   quote_notify: [notify_module: :none, notify_fn: :none]

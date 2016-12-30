@@ -16,7 +16,7 @@ defmodule Ticker do
 
     children = [
       supervisor(Ticker.Security.Supervisor, []),
-      worker(Ticker.Periodic.Periodically, [fn -> Ticker.Periodic.Timer.quotes end, frequency]),
+      worker(Ticker.Periodic.Periodically, [&Ticker.Periodic.Timer.quotes/1, frequency]),
       worker(Ticker.Notify.Frame, [])
     ]
 

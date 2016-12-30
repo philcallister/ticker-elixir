@@ -11,6 +11,9 @@ defmodule Ticker.Quote.Processor.HTTP do
       |> decode
   end
 
+  @doc "Currently historical not implemented here (@see Ticker.Quote.Processor.Behaviour.historical)"
+  def historical(_), do: []
+
   defp fetch(symbols) do
     case request(symbols) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} -> body
