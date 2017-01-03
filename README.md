@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/philcallister/ticker-elixir/badge.svg?branch=master)](https://coveralls.io/github/philcallister/ticker-elixir?branch=master)
+
 # ticker-elixir
 
 **ticker-elixir** is an example Elixir OTP app which periodically pulls configured quotes from the (defunct but still available) Google Finance API and stores these quotes within symbol GenServers. A callback can be configured to notify when the quotes have been updated. While currently not implemented at this time, it might be interesting to build an adapter layer to configure the OTP app for different quote APIs.
