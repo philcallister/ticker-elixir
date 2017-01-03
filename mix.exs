@@ -8,7 +8,9 @@ defmodule Ticker.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: [test: "test --no-start"],
-     deps: deps()]
+     deps: deps(),
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]]
   end
 
   # Configuration for the OTP application
@@ -34,7 +36,8 @@ defmodule Ticker.Mixfile do
       {:timex, "~> 3.0"},
       {:gproc, "~> 0.5.0"},
       {:poison, "~> 2.0"},
-      {:httpoison, "~> 0.9.0"}
+      {:httpoison, "~> 0.9.0"},
+      {:excoveralls, "~> 0.5", only: :test}
     ]
   end
 
