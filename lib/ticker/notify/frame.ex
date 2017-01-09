@@ -23,7 +23,6 @@ defmodule Ticker.Notify.Frame do
 
   def handle_cast({:notify, frame}, state) do
     frame_conf = Application.get_env(:ticker, :frame_notify)
-
     case frame_conf[:notify_module] do
       nil -> :empty
       :none -> :empty

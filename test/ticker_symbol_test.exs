@@ -1,5 +1,5 @@
 defmodule Ticker.Symbol.Test do
-  use ExUnit.Case, async: false
+  use ExUnit.Case, async: true
 
   @symbol "TSLA"
   @quote_start_minute %Ticker.Quote{c: "+1.02", c_fix: "1.02", ccol: "chg", cp: "0.51",
@@ -32,6 +32,8 @@ defmodule Ticker.Symbol.Test do
 
   test "init" do
     Ticker.Symbol.start_link(@symbol)
+    [symbol_pid | _] = :gproc.lookup_pids({:n, :l, {Ticker.Symbol, :"_"}})
+    assert is_pid(symbol_pid)
   end
 
   test "get pid" do

@@ -1,4 +1,4 @@
-defmodule Ticker.Period.Periodically.Test do
+defmodule Ticker.Periodic.Periodically.Test do
   use ExUnit.Case, async: true
 
   test "periodic worker runs immediately & interval" do
