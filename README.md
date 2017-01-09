@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/philcallister/ticker-elixir.svg?branch=master)](https://travis-ci.org/philcallister/ticker-elixir)
 [![Coverage Status](https://coveralls.io/repos/github/philcallister/ticker-elixir/badge.svg?branch=master)](https://coveralls.io/github/philcallister/ticker-elixir?branch=master)
 
 # ticker-elixir
