@@ -2,6 +2,7 @@
   "skip_files": [
     "lib/mix/tasks",
     "lib/ticker.ex",
-    "lib/ticker/notify/log.ex"
+    "lib/ticker/notify/log.ex",
+    "lib/ticker/quote/processor/behavior.ex"
   ]
 }

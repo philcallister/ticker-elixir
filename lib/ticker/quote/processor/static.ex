@@ -5,12 +5,18 @@ defmodule Ticker.Quote.Processor.Static do
 
   @doc "Process the given symbols (@see Ticker.Quote.Processor.Behaviour.process). Used for testing"
   def process(symbols) do
+    fake_quotes(symbols)
+  end
+
+  @doc "Process historical here (@see Ticker.Quote.Processor.Behaviour.historical). Used for testing"
+  def historical(symbols) do
+    fake_quotes(symbols)
+  end
+
+  defp fake_quotes(symbols) do
     Enum.map(symbols, fn(s) -> 
       Map.merge(@quote, %{t: s})
     end)
   end
-
-  @doc "No historical here (@see Ticker.Quote.Processor.Behaviour.historical). Used for testing"
-  def historical(_), do: []
 
 end
