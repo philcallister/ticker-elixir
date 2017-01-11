@@ -3,6 +3,11 @@ require Logger
 defmodule Ticker.Security.Supervisor do
   use Supervisor
 
+  def start_link(empty) when empty do
+    Logger.info("Starting Security Supervisor (NO Symbols)...")
+    Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
+  end
+
   def start_link do
     Logger.info("Starting Security Supervisor...")
     {:ok, pid} = Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)

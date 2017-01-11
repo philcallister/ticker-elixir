@@ -64,6 +64,7 @@ defmodule Ticker.Symbol.Test do
 
   #####
   # Symbol Server Interface
+
   test "get symbol" do
     state = %{:symbol => @symbol, :quote => %Ticker.Quote{}}
     {:reply, response, newstate} = Ticker.Symbol.handle_call(:get_symbol, nil, state)
