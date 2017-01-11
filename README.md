@@ -3,14 +3,16 @@
 
 # ticker-elixir
 
-**ticker-elixir** is an example Elixir OTP app which periodically pulls configured quotes from the (defunct but still available) Google Finance API and stores these quotes within symbol GenServers. A callback can be configured to notify when the quotes have been updated. While currently not implemented at this time, it might be interesting to build an adapter layer to configure the OTP app for different quote APIs.
+**ticker-elixir** is an example Elixir OTP app which periodically pulls configured quotes from the (defunct but still available) Google Finance API or simulates quotes,
+then stores these quotes within symbol GenServers. Callbacks can be configured to notify when quotes or time-frame intervals have been updated. While currently not implemented
+at this time, it might be interesting to build an adapter layer to configure the OTP app for different quote APIs.
 
 To see the **ticker-elixir** app in action, head over to
 - [ticker-phoenix](https://github.com/philcallister/ticker-phoenix) Elixir Phoenix app
 - [ticker-react] (https://github.com/philcallister/ticker-react) React app
 
-### Example when the applications are used together
-![Stock Ticker](/screen-shot.png?raw=true "Stock Ticker Example")
+##### Example screenshot of the three applications being used together
+![Stock Ticker](/screen-shot.gif?raw=true "Stock Ticker Example")
 
 ## Environment
 
