@@ -12,9 +12,9 @@ defmodule Ticker.Quote.Processor do
     collect_symbols |> historical
   end
 
-  def update([]), do: Logger.info("No available quotes...")
+  def update({:ok, []}), do: Logger.info("No available quotes...")
 
-  def update(quotes) do
+  def update({:ok, quotes}) do
     Enum.each(quotes, fn(q) ->
       if Ticker.Symbol.get_pid(q.t) == :undefined do
         Ticker.Security.Supervisor.add_security(q.t)
@@ -22,6 +22,10 @@ defmodule Ticker.Quote.Processor do
       Ticker.Symbol.add_quote(q.t, q)
     end)
     {:ok, quotes}
+  end
+
+  def update({:error, msg}) do
+    Logger.error(msg)
   end
 
   defp collect_symbols do

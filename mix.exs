@@ -37,7 +37,8 @@ defmodule Ticker.Mixfile do
       {:gproc, "~> 0.5.0"},
       {:poison, "~> 2.0"},
       {:httpoison, "~> 0.9.0"},
-      {:excoveralls, "~> 0.5", only: :test}
+      {:excoveralls, "~> 0.5", only: :test},
+      {:mock, "~> 0.2.0", only: :test}
     ]
   end
 

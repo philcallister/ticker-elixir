@@ -14,9 +14,10 @@ defmodule Ticker.Quote.Processor.Static do
   end
 
   defp fake_quotes(symbols) do
-    Enum.map(symbols, fn(s) -> 
+    quotes = Enum.map(symbols, fn(s) ->
       Map.merge(@quote, %{t: s})
     end)
+    {:ok, quotes}
   end
 
 end

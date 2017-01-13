@@ -36,13 +36,17 @@ defmodule Ticker.Quote.Processor.Test do
 
   test "update unexpected quote" do
     {:ok, security_pid} = Ticker.Security.Supervisor.start_link(true)
-    Ticker.Quote.Processor.update([@unexpected_quote])
+    Ticker.Quote.Processor.update({:ok, [@unexpected_quote]})
     assert Ticker.Symbol.get_quote(@unexpected_symbol) == @unexpected_quote
     GenServer.stop(security_pid)
   end
 
   test "no quote to update" do
-    assert Ticker.Quote.Processor.update([]) == :ok
+    assert Ticker.Quote.Processor.update({:ok, []}) == :ok
+  end
+
+  test "update error" do
+    assert Ticker.Quote.Processor.update({:error, "error"}) == :ok
   end
 
 end
