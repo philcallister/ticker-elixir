@@ -11,6 +11,8 @@ To see the **ticker-elixir** app in action, head over to
 - [ticker-phoenix](https://github.com/philcallister/ticker-phoenix) Elixir Phoenix app
 - [ticker-react] (https://github.com/philcallister/ticker-react) React app
 
+To run the three apps togther, follow the startup instructions for both **ticker-phoenix** & **ticker-react**. This app, **ticker-elixir**,  will be included within **ticker-phoenix**
+
 ##### Example screenshot of the three applications being used together
 ![Stock Ticker](/screen-shot.gif?raw=true "Stock Ticker Example")
 
