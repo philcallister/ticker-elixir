@@ -3,6 +3,7 @@ defmodule Ticker.Quote.Processor.Simulate do
   use Timex
 
   @historical_hours 2
+  @ticks_per_minute 4
   @behaviour Ticker.Quote.Processor.Behaviour
   @initial_quote %Ticker.Quote{c: "0.00", c_fix: "0.00", ccol: "chr", cp: "0.00", cp_fix: "0.00", e: "NASDAQ", id: "99999", l: "120.00", l_cur: "120.00", l_fix: "120.00", lt: "", lt_dts: "", ltt: "", pcls_fix: "120.00", s: "0"}
 
@@ -20,7 +21,7 @@ defmodule Ticker.Quote.Processor.Simulate do
   def historical(symbols) do
     dt = Timex.shift(Timex.now, hours: -@historical_hours)
     quotes = Interval.new(from: dt, until: [hours: @historical_hours], step: [minutes: 1])
-      |> Enum.map(fn(i) -> Enum.map(1..4, fn(_) -> process(symbols, i) end) end)
+      |> Enum.map(fn(i) -> Enum.map(1..@ticks_per_minute, fn(_) -> process(symbols, i) end) end)
       |> List.flatten
     {:ok, quotes}
   end

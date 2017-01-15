@@ -21,6 +21,7 @@ use Mix.Config
 #     config :logger, level: :info
 #
 config :ticker,
+  frequency: 15_000,
   processor: Ticker.Quote.Processor.HTTP,
   historical: false,
   symbols: ["TSLA", "GOOG", "AAPL", "TWTR", "FB", "MMM", "GLD", "VOO"],

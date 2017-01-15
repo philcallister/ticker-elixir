@@ -12,6 +12,7 @@ defmodule Ticker.Quote.Processor.HTTP.Test do
                                       l_fix: "229.59", lt: "Jan 12, 4:00PM EST", lt_dts: "2017-01-12T16:00:01Z",
                                       ltt: "4:00PM EST", pcls_fix: "229.73", s: "2", t: "TSLA"}]}
   @bad_body_400 {:error, "Bad Request..."}
+  @bad_body_404 {:error, "Not Found..."}
 
   def good_200 do
     {:ok,
@@ -50,6 +51,23 @@ defmodule Ticker.Quote.Processor.HTTP.Test do
     }
   end
 
+  def bad_404 do
+    {:ok,
+     %HTTPoison.Response{
+        body: "BLAH",
+        headers: [{"Content-Type", "text/html; charset=ISO-8859-1"},
+          {"X-Content-Type-Options", "nosniff"},
+          {"Date", "Fri, 13 Jan 2017 13:42:27 GMT"},
+          {"Expires", "Fri, 13 Jan 2017 13:42:27 GMT"},
+          {"Cache-Control", "private, max-age=0"}, {"X-Frame-Options", "SAMEORIGIN"},
+          {"X-XSS-Protection", "1; mode=block"}, {"Server", "GSE"},
+          {"Accept-Ranges", "none"}, {"Vary", "Accept-Encoding"},
+          {"Transfer-Encoding", "chunked"}],
+        status_code: 404
+      }
+    }
+  end
+
   test "200" do
     with_mock HTTPoison, [get: fn(_url) -> good_200 end] do
       body = Ticker.Quote.Processor.HTTP.process(["GOOG", "TSLA"])
@@ -63,6 +81,14 @@ defmodule Ticker.Quote.Processor.HTTP.Test do
       body = Ticker.Quote.Processor.HTTP.process(["***"])
       assert called HTTPoison.get("http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A***")
       assert body == @bad_body_400
+    end
+  end
+
+  test "404" do
+    with_mock HTTPoison, [get: fn(_url) -> bad_404 end] do
+      body = Ticker.Quote.Processor.HTTP.process(["***"])
+      assert called HTTPoison.get("http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A***")
+      assert body == @bad_body_404
     end
   end
 

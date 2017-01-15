@@ -19,6 +19,9 @@ defmodule Ticker.Quote do
     :pcls_fix
   ]
 
+  def is_a_quote?(%Ticker.Quote{}), do: true
+  def is_a_quote?(_), do: false
+
   def as_type(ticker_quote, type \\ :string) do
     type_fn = case type do
       :string -> fn(value, sign) -> as_string(value, sign) end
