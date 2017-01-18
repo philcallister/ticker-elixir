@@ -103,6 +103,10 @@ defmodule Ticker.TimeFrame.Supervisor do
     {:ok, pid}
   end
 
+  def intervals do
+    @intervals
+  end
+
   defp via_tuple(name) do
     {:via, :gproc, {:n, :l, {__MODULE__, name}}}
   end
