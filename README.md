@@ -15,7 +15,7 @@ While currently not implemented at this time, it might be interesting to build a
 different quote endpoints. Obviously, Google Finance is just a very simple example, but there's no reason why professional quality feeds
 couldn't be consumed.
 
-A **huge** missing piece to this puzzle is that historical data is currently only stored within ETS. The 2nd phase will be to wire
+A **HUGE** missing piece to this puzzle is that historical data is currently only stored within ETS. The 2nd phase will be to wire
 this into Cassandra, a perfect solution for time-based historical data. Stay tuned!
 
 To see the **ticker-elixir** app in action, head over to
@@ -33,6 +33,8 @@ The sample was developed using the following
 
 - Elixir 1.3.0
 - OS X El Capitan (10.11)
+
+**Note:** Pull the elixir_1.4 branch to use Elixir 1.4. This branch also includes updates to use the Elixir 1.4 **Registry** in place of **gproc** :+1: 
 
 ## Setup
 
