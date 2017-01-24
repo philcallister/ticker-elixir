@@ -4,7 +4,7 @@ defmodule Ticker.Mixfile do
   def project do
     [app: :ticker,
      version: "0.1.0",
-     elixir: "~> 1.3",
+     elixir: "~> 1.4",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: [test: "test --no-start"],
@@ -18,7 +18,7 @@ defmodule Ticker.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [mod: {Ticker, []},
-     applications: [:logger, :timex, :gproc, :httpoison],
+     applications: [:logger, :timex, :httpoison],
      included_applications: [:poison]]
   end
 
@@ -33,10 +33,9 @@ defmodule Ticker.Mixfile do
   # Type "mix help deps" for more examples and options
   def deps do
     [
-      {:timex, "~> 3.0"},
-      {:gproc, "~> 0.5.0"},
-      {:poison, "~> 2.0"},
-      {:httpoison, "~> 0.9.0"},
+      {:timex, "~> 3.1"},
+      {:poison, "~> 3.1"},
+      {:httpoison, "~> 0.11.0"},
       {:excoveralls, "~> 0.5", only: :test},
       {:mock, "~> 0.2.0", only: :test}
     ]

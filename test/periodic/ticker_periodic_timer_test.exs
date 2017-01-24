@@ -1,6 +1,11 @@
 defmodule Ticker.Periodic.Timer.Test do
   use ExUnit.Case, async: false
 
+  setup_all do
+    {:ok, _} = Registry.start_link(:unique, :process_registry)
+    :ok
+  end
+
   test "timer quotes startup" do
     Application.put_env(:ticker, :historical, true, [persistent: true])
     assert Ticker.Periodic.Timer.quotes(true) == {:empty}

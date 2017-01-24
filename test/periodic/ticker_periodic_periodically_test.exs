@@ -2,7 +2,7 @@ defmodule Ticker.Periodic.Periodically.Test do
   use ExUnit.Case, async: false
 
   test "periodic worker runs immediately & interval" do
-    test_pid = self
+    test_pid = self()
     worker_callback = fn(_) -> send(test_pid, {:called_back}) end
     {:ok, periodically_pid} = Ticker.Periodic.Periodically.start_link(worker_callback, 1000)
 
@@ -14,7 +14,7 @@ defmodule Ticker.Periodic.Periodically.Test do
   end
 
   test "periodic worker only runs @ interval" do
-    test_pid = self
+    test_pid = self()
     worker_callback = fn(_) -> send(test_pid, {:called_back}) end
     {:ok, periodically_pid} = Ticker.Periodic.Periodically.start_link(worker_callback, 1000, false)
 

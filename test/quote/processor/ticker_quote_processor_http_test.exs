@@ -69,7 +69,7 @@ defmodule Ticker.Quote.Processor.HTTP.Test do
   end
 
   test "200" do
-    with_mock HTTPoison, [get: fn(_url) -> good_200 end] do
+    with_mock HTTPoison, [get: fn(_url) -> good_200() end] do
       body = Ticker.Quote.Processor.HTTP.process(["GOOG", "TSLA"])
       assert called HTTPoison.get("http://finance.google.com/finance/info?client=ig&q=NASDAQ%3AGOOG%2CTSLA")
       assert body == @good_body_200
@@ -77,7 +77,7 @@ defmodule Ticker.Quote.Processor.HTTP.Test do
   end
 
   test "400" do
-    with_mock HTTPoison, [get: fn(_url) -> bad_400 end] do
+    with_mock HTTPoison, [get: fn(_url) -> bad_400() end] do
       body = Ticker.Quote.Processor.HTTP.process(["***"])
       assert called HTTPoison.get("http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A***")
       assert body == @bad_body_400
@@ -85,7 +85,7 @@ defmodule Ticker.Quote.Processor.HTTP.Test do
   end
 
   test "404" do
-    with_mock HTTPoison, [get: fn(_url) -> bad_404 end] do
+    with_mock HTTPoison, [get: fn(_url) -> bad_404() end] do
       body = Ticker.Quote.Processor.HTTP.process(["***"])
       assert called HTTPoison.get("http://finance.google.com/finance/info?client=ig&q=NASDAQ%3A***")
       assert body == @bad_body_404

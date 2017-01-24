@@ -25,7 +25,7 @@ defmodule Ticker.TimeFrame do
   end
 
   defp via_tuple({name, interval}) do
-    {:via, :gproc, {:n, :l, {__MODULE__, name, interval}}}
+    {:via, Registry, {:process_registry, {__MODULE__, name, interval}}}
   end
 
 
@@ -108,7 +108,7 @@ defmodule Ticker.TimeFrame.Supervisor do
   end
 
   defp via_tuple(name) do
-    {:via, :gproc, {:n, :l, {__MODULE__, name}}}
+    {:via, Registry, {:process_registry, {__MODULE__, name}}}
   end
 
 

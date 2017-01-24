@@ -74,14 +74,19 @@ defmodule Ticker.TimeFrame.Test do
         ltt: "11:49AM EDT", pcls_fix: "198.0", s: "0", t: @symbol}
   }
 
+  setup_all do
+    {:ok, _} = Registry.start_link(:unique, :process_registry)
+    :ok
+  end
+
   #####
   # TimeFrame Supervisor
 
   test "init supervisor" do
     {:ok, pid} = Ticker.TimeFrame.Supervisor.start_link(@symbol)
-    time_frame_pids = :gproc.lookup_pids({:n, :l, {Ticker.TimeFrame, :"_", :"_"}})
+    time_frame_pids = Registry.match(:process_registry, {Ticker.TimeFrame, :_, :_}, :_)
     assert length(time_frame_pids) == length(Ticker.TimeFrame.Supervisor.intervals)
-    Enum.each(time_frame_pids, fn(tfp) -> is_pid(tfp) end)
+    Enum.each(time_frame_pids, fn({tfp, _}) -> is_pid(tfp) end)
     GenServer.stop(pid)
   end
 
@@ -91,7 +96,7 @@ defmodule Ticker.TimeFrame.Test do
 
   test "init" do
     Ticker.TimeFrame.start_link(@symbol, {1, :none, [2,5]})
-    [time_frame_pid | _] = :gproc.lookup_pids({:n, :l, {Ticker.TimeFrame, :"_", :"_"}})
+    [{time_frame_pid, _} | _] = Registry.match(:process_registry, {Ticker.TimeFrame, :_, :_}, :_)
     assert is_pid(time_frame_pid)
   end
 

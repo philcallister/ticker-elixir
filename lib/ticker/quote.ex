@@ -52,7 +52,7 @@ defmodule Ticker.Quote do
       true when value > 0 -> "+"
       _ -> nil
     end
-    ~s(#{pre}#{Float.to_string(value, decimals: 2)})
+    ~s(#{pre}#{:erlang.float_to_binary(value, decimals: 2)})
   end
 
   defp as_float(value) do

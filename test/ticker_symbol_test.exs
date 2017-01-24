@@ -15,14 +15,19 @@ defmodule Ticker.Symbol.Test do
       l_fix: "200.12", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:20Z",
       ltt: "11:47AM EDT", pcls_fix: "199.1", s: "0", t: "TSLA"}
 
+  setup_all do
+    {:ok, _} = Registry.start_link(:unique, :process_registry)
+    :ok
+  end
+
   #####
   # Symbol Supervisor
 
   test "init supervisor" do
-    Ticker.Symbol.Supervisor.start_link(@symbol)
-    [symbol_pid | _] = :gproc.lookup_pids({:n, :l, {Ticker.Symbol, :"_"}})
+    {:ok, _} = Ticker.Symbol.Supervisor.start_link(@symbol)
+    [{symbol_pid, _} | _] = Registry.match(:process_registry, {Ticker.Symbol, :_}, :_)
     assert is_pid(symbol_pid)
-    [time_frame_pid | _] = :gproc.lookup_pids({:n, :l, {Ticker.TimeFrame.Supervisor, :"_"}})
+    [{time_frame_pid, _} | _] = Registry.match(:process_registry, {Ticker.TimeFrame.Supervisor, :_}, :_)
     assert is_pid(time_frame_pid)
   end
 
@@ -31,8 +36,8 @@ defmodule Ticker.Symbol.Test do
   # Symbol Client Interface
 
   test "init" do
-    Ticker.Symbol.start_link(@symbol)
-    [symbol_pid | _] = :gproc.lookup_pids({:n, :l, {Ticker.Symbol, :"_"}})
+    {:ok, _} = Ticker.Symbol.start_link(@symbol)
+    [{symbol_pid, _} | _] = Registry.match(:process_registry, {Ticker.Symbol, :_}, :_)
     assert is_pid(symbol_pid)
   end
 

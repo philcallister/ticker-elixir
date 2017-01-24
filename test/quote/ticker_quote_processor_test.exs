@@ -8,6 +8,11 @@ defmodule Ticker.Quote.Processor.Test do
       l_fix: "200.00", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:05Z",
       ltt: "11:47AM EDT", pcls_fix: "198.00", s: "0", t: @unexpected_symbol}
 
+  setup_all do
+    {:ok, _} = Registry.start_link(:unique, :process_registry)
+    :ok
+  end
+
   test "get historical" do
     {:ok, _} = Ticker.Symbol.start_link(@symbol)
     {:ok, [test_quote|_]} = Ticker.Quote.Processor.historical

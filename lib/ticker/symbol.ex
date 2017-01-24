@@ -14,7 +14,10 @@ defmodule Ticker.Symbol do
   end
 
   def get_pid(name) do
-    :gproc.where({:n, :l, {__MODULE__, name}})
+    case Registry.lookup(:process_registry, {__MODULE__, name}) do
+      [] -> :empty
+      [{pid, _}] -> pid
+    end
   end
 
   def get_symbol(pid) when is_pid(pid) do
@@ -34,7 +37,7 @@ defmodule Ticker.Symbol do
   end
 
   defp via_tuple(name) do
-    {:via, :gproc, {:n, :l, {__MODULE__, name}}}
+    {:via, Registry, {:process_registry, {__MODULE__, name}}}
   end
 
 
@@ -82,7 +85,7 @@ defmodule Ticker.Symbol.Supervisor do
   end
 
   defp via_tuple(name) do
-    {:via, :gproc, {:n, :l, {__MODULE__, name}}}
+    {:via, Registry, {:process_registry, {__MODULE__, name}}}
   end
 
 

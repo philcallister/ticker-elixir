@@ -11,7 +11,7 @@ defmodule Ticker.Security.Supervisor do
   def start_link do
     Logger.info("Starting Security Supervisor...")
     {:ok, pid} = Supervisor.start_link(__MODULE__, :ok, name: __MODULE__)
-    add_config_securites
+    add_config_securites()
     {:ok, pid}
   end
 

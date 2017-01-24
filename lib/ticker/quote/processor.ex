@@ -4,19 +4,19 @@ defmodule Ticker.Quote.Processor do
 
   def quotes do
     Logger.info("Loading quotes...")
-    collect_symbols |> process
+    collect_symbols() |> process
   end
 
   def historical do
     Logger.info("Loading historical...")
-    collect_symbols |> historical
+    collect_symbols() |> historical
   end
 
   def update({:ok, []}), do: Logger.info("No available quotes...")
 
   def update({:ok, quotes}) do
     Enum.each(quotes, fn(q) ->
-      if Ticker.Symbol.get_pid(q.t) == :undefined do
+      if Ticker.Symbol.get_pid(q.t) == :empty do
         Ticker.Security.Supervisor.add_security(q.t)
       end
       Ticker.Symbol.add_quote(q.t, q)
@@ -29,8 +29,8 @@ defmodule Ticker.Quote.Processor do
   end
 
   defp collect_symbols do
-    symbol_servers = :gproc.lookup_pids({:n, :l, {Ticker.Symbol, :"_"}})
-    Enum.map(symbol_servers, fn(ss) -> Ticker.Symbol.get_symbol(ss) end)
+    symbol_servers = Registry.match(:process_registry, {Ticker.Symbol, :_}, :_)
+    Enum.map(symbol_servers, fn({ss, _}) -> Ticker.Symbol.get_symbol(ss) end)
   end
 
   defp process([]) do
