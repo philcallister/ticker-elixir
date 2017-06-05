@@ -35,8 +35,7 @@ defmodule Ticker.Quote.Processor.HTTP do
   end
 
   defp decode({:ok, body}) do
-    hacked_body = String.replace_leading(body, "\n// ", "")
-    {:ok, Poison.decode!(hacked_body, as: [%Ticker.Quote{}])}
+    {:ok, Poison.decode!(body, as: [%Ticker.Quote{}])}
   end
 
 end

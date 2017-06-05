@@ -1,22 +1,34 @@
 defmodule Ticker.Quote do
+  @moduledoc """
+  Quote Struct
+
+  https://api.iextrading.com/1.0/tops?symbols=AAPL
+  * symbol:        the stock ticker.
+  * marketPercent: IEX's percentage of the market in the stock.
+  * bidSize:       amount of shares on the bid on IEX.
+  * bidPrice:      the best bid price on IEX.
+  * askSize:       amount of shares on the ask on IEX.
+  * askPrice:      the best ask price on IEX.
+  * volume:        shares traded in the stock on IEX.
+  * lastSalePrice: last sale price of the stock on IEX.
+  * lastSaleSize:  last sale size of the stock on IEX.
+  * lastSaleTime:  last sale time in epoch time of the stock on IEX.
+  * lastUpdated:   the last update time of the data in milliseconds since midnight Jan 1, 1970 or -1. If the value is -1, IEX has not quoted the symbol in the trading day.
+  """
+
   @derive [Poison.Encoder]
   defstruct [
-    :id,
-    :t,
-    :e,
-    :l,
-    :l_fix,
-    :l_cur,
-    :s,
-    :ltt,
-    :lt,
-    :lt_dts,
-    :c,
-    :c_fix,
-    :cp,
-    :cp_fix,
-    :ccol,
-    :pcls_fix
+    :symbol,
+    :marketPercent,
+    :bidSize,
+    :bidPrice,
+    :askSize,
+    :askPrice,
+    :volume,
+    :lastSalePrice,
+    :lastSaleSize,
+    :lastSaleTime,
+    :lastUpdated
   ]
 
   def is_a_quote?(%Ticker.Quote{}), do: true
@@ -24,35 +36,32 @@ defmodule Ticker.Quote do
 
   def as_type(ticker_quote, type \\ :string) do
     type_fn = case type do
-      :string -> fn(value, sign) -> as_string(value, sign) end
-      _       -> fn(value, _) -> as_float(value) end
+      :string -> fn(value, sign, precision) -> as_string(value, sign, precision) end
+      _       -> fn(value, _, _) -> as_float(value) end
     end
+
     %Ticker.Quote{
-        id:       ticker_quote.id,
-        t:        ticker_quote.t,
-        e:        ticker_quote.e,
-        l:        type_fn.(ticker_quote.l, false),
-        l_fix:    type_fn.(ticker_quote.l_fix, false),
-        l_cur:    type_fn.(ticker_quote.l_cur, false),
-        s:        ticker_quote.s,
-        ltt:      ticker_quote.ltt,
-        lt:       ticker_quote.lt,
-        lt_dts:   ticker_quote.lt_dts,
-        c:        type_fn.(ticker_quote.c, true),
-        c_fix:    type_fn.(ticker_quote.c_fix, false),
-        cp:       type_fn.(ticker_quote.cp, false),
-        cp_fix:   type_fn.(ticker_quote.cp_fix, false),
-        ccol:     ticker_quote.ccol,
-        pcls_fix: type_fn.(ticker_quote.pcls_fix, false)
+      symbol:         ticker_quote.symbol,
+      marketPercent:  type_fn.(ticker_quote.marketPercent, false, 5),
+      bidSize:        ticker_quote.bidSize,
+      bidPrice:       type_fn.(ticker_quote.bidPrice, false, 3),
+      askSize:        ticker_quote.askSize,
+      askPrice:       type_fn.(ticker_quote.askPrice, false, 3),
+      volume:         ticker_quote.volume,
+      lastSalePrice:  type_fn.(ticker_quote.lastSalePrice, false, 3),
+      lastSaleSize:   ticker_quote.lastSaleSize,
+      lastSaleTime:   ticker_quote.lastSaleTime,
+      lastUpdated:    ticker_quote.lastUpdated
     }
+
   end
 
-  defp as_string(value, sign) do
+  defp as_string(value, sign, precision) do
     pre = case sign do
       true when value > 0 -> "+"
       _ -> nil
     end
-    ~s(#{pre}#{:erlang.float_to_binary(value, decimals: 2)})
+    ~s(#{pre}#{:erlang.float_to_binary(value, decimals: precision)})
   end
 
   defp as_float(value) do

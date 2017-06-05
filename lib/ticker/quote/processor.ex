@@ -16,10 +16,10 @@ defmodule Ticker.Quote.Processor do
 
   def update({:ok, quotes}) do
     Enum.each(quotes, fn(q) ->
-      if Ticker.Symbol.get_pid(q.t) == :empty do
-        Ticker.Security.Supervisor.add_security(q.t)
+      if Ticker.Symbol.get_pid(q.symbol) == :empty do
+        Ticker.Security.Supervisor.add_security(q.symbol)
       end
-      Ticker.Symbol.add_quote(q.t, q)
+      Ticker.Symbol.add_quote(q.symbol, q)
     end)
     {:ok, quotes}
   end

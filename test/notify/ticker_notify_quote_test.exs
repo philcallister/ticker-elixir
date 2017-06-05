@@ -1,10 +1,11 @@
 defmodule Ticker.Notify.Quote.Test do
   use ExUnit.Case, async: false
 
-  @quote %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-    cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "199.00", l_cur: "199.00",
-    l_fix: "199.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:05Z",
-    ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
+  @symbol "TSLA"
+  @quote %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "199.00", lastSaleSize: 25,
+      lastSaleTime: 1477050485000, lastUpdated: 1477050485000}
 
   def notify_quote_test_callback(quote) do
     assert quote == [@quote]

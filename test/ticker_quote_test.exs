@@ -1,15 +1,16 @@
 defmodule Ticker.Quote.Test do
   use ExUnit.Case, async: true
 
-  @quote_string %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "200.00", l_cur: "200.00",
-      l_fix: "200.00", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:05Z",
-      ltt: "11:47AM EDT", pcls_fix: "198.00", s: "0", t: "TSLA"}
+  @symbol "TSLA"
+  @quote_string %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.900", askSize: 100, askPrice: "202.100", volume: 33621,
+      lastSalePrice: "200.000", lastSaleSize: 25,
+      lastSaleTime: 1477050425000, lastUpdated: 1477050425000}
 
-  @quote_float %Ticker.Quote{c: 1.00, c_fix: 1.00, ccol: "chg", cp: 0.50,
-      cp_fix: 0.50, e: "NASDAQ", id: "12607212", l: 200.00, l_cur: 200.00,
-      l_fix: 200.00, lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:05Z",
-      ltt: "11:47AM EDT", pcls_fix: 198.00, s: "0", t: "TSLA"}
+  @quote_float %Ticker.Quote{symbol: @symbol, marketPercent: 0.01024, bidSize: 100,
+      bidPrice: 201.90, askSize: 100, askPrice: 202.10, volume: 33621,
+      lastSalePrice: 200.00, lastSaleSize: 25,
+      lastSaleTime: 1477050425000, lastUpdated: 1477050425000}
 
   test "quote from string to float" do
     quote_float = Ticker.Quote.as_type(@quote_string, :float)

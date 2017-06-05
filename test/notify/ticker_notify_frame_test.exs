@@ -1,23 +1,24 @@
 defmodule Ticker.Notify.Frame.Test do
   use ExUnit.Case, async: false
 
+  @symbol "TSLA"
   @frame %Ticker.Frame {
-    open: %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-        cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "199.00", l_cur: "199.00",
-        l_fix: "199.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:05Z",
-        ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"},
-    high: %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-        cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "200.00", l_cur: "200.00",
-        l_fix: "200.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:10Z",
-        ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"},
-    low: %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-        cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "197.00", l_cur: "197.00",
-        l_fix: "197.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:15Z",
-        ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"},
-    close: %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-        cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "199.00", l_cur: "199.00",
-        l_fix: "199.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:20Z",
-        ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
+    open: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "199.00", lastSaleSize: 25,
+      lastSaleTime: 1477050560000, lastUpdated: 1477050560000},
+    high: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "200.00", lastSaleSize: 25,
+      lastSaleTime: 1477050490000, lastUpdated: 1477050490000},
+    low: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "197.00", lastSaleSize: 25,
+      lastSaleTime: 1477050495000, lastUpdated: 1477050495000},
+    close: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "197.00", lastSaleSize: 25,
+      lastSaleTime: 1477050500000, lastUpdated: 1477050500000}
   }
 
   def notify_frame_test_callback(frame) do

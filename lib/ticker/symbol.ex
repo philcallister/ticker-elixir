@@ -59,14 +59,14 @@ defmodule Ticker.Symbol do
     {quotes, minute} = case set_quotes(quote, state[:minute]) do
       {:update, m} -> {[quote | state[:quotes]], m}
       {_, m} ->
-        TimeFrame.rollup_quotes(quote.t, Enum.reverse(state[:quotes])) # New minute -- rollup previous minute
+        TimeFrame.rollup_quotes(quote.symbol, Enum.reverse(state[:quotes])) # New minute -- rollup previous minute
         {[quote], m}
     end
     {:noreply,  %{:symbol => state[:symbol], :quote => quote, :quotes => quotes, :minute => minute}}
   end
 
   defp set_quotes(quote, minute) do
-    {:ok, quote_time} = Timex.parse(quote.lt_dts, "{ISO:Extended:Z}")
+    quote_time = Timex.from_unix(quote.lastUpdated, :millisecond)
     cond do
       minute == nil -> {:update, quote_time.minute}
       quote_time.minute != minute -> {:reset, quote_time.minute}

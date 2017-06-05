@@ -2,39 +2,39 @@ defmodule Ticker.Frame.Test do
   use ExUnit.Case, async: true
 
   @symbol "TSLA"
-  @open_quote1 %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "200.00", l_cur: "200.00",
-      l_fix: "200.00", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:05Z",
-      ltt: "11:47AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
-  @high_quote1 %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "202.00", l_cur: "202.00",
-      l_fix: "202.00", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:10Z",
-      ltt: "11:47AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
-  @skip_quote1 %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "201.00", l_cur: "201.00",
-      l_fix: "201.00", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:15Z",
-      ltt: "11:47AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
-  @close_quote1 %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "199.00", l_cur: "199.00",
-      l_fix: "199.00", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:20Z",
-      ltt: "11:47AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
+  @open_quote1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "200.00", lastSaleSize: 25,
+      lastSaleTime: 1477050425000, lastUpdated: 1477050425000}
+  @high_quote1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "202.00", lastSaleSize: 25,
+      lastSaleTime: 1477050430000, lastUpdated: 1477050430000}
+  @skip_quote1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "201.00", lastSaleSize: 25,
+      lastSaleTime: 1477050435000, lastUpdated: 1477050435000}
+  @close_quote1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "199.00", lastSaleSize: 25,
+      lastSaleTime: 1477050440000, lastUpdated: 1477050440000}
 
-  @open_quote2 %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "199.00", l_cur: "199.00",
-      l_fix: "199.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:05Z",
-      ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
-  @high_quote2 %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "200.00", l_cur: "200.00",
-      l_fix: "200.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:10Z",
-      ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
-  @low_quote2 %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "197.00", l_cur: "197.00",
-      l_fix: "197.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:15Z",
-      ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
-  @close_quote2 %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "199.00", l_cur: "199.00",
-      l_fix: "199.00", lt: "Oct 21, 11:48AM EDT", lt_dts: "2016-10-21T11:48:20Z",
-      ltt: "11:48AM EDT", pcls_fix: "198.0", s: "0", t: "TSLA"}
+  @open_quote2 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "199.00", lastSaleSize: 25,
+      lastSaleTime: 1477050485000, lastUpdated: 1477050485000}
+  @high_quote2 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "200.00", lastSaleSize: 25,
+      lastSaleTime: 1477050490000, lastUpdated: 1477050490000}
+  @low_quote2 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "197.00", lastSaleSize: 25,
+      lastSaleTime: 1477050495000, lastUpdated: 1477050495000}
+  @close_quote2 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "199.00", lastSaleSize: 25,
+      lastSaleTime: 1477050500000, lastUpdated: 1477050500000}
 
   test "get empty frame from quotes" do
     frame = Ticker.Frame.quotes_to_frame(nil, nil, [])

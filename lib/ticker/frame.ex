@@ -24,14 +24,14 @@ defmodule Ticker.Frame do
   end
 
   defp min_quote(x,y) do
-    case x.l <= y.l do
+    case x.lastSalePrice <= y.lastSalePrice do
       true -> x
       _ -> y
     end
   end
 
   defp max_quote(x,y) do
-    case x.l >= y.l do
+    case x.lastSalePrice >= y.lastSalePrice do
       true -> x
       _ -> y
     end

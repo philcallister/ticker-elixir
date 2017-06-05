@@ -3,10 +3,10 @@ defmodule Ticker.Quote.Processor.Test do
 
   @symbol "TSLA"
   @unexpected_symbol "YIKE"
-  @unexpected_quote %Ticker.Quote{c: "+1.00", c_fix: "1.00", ccol: "chg", cp: "0.50",
-      cp_fix: "0.50", e: "NASDAQ", id: "12607212", l: "200.00", l_cur: "200.00",
-      l_fix: "200.00", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:05Z",
-      ltt: "11:47AM EDT", pcls_fix: "198.00", s: "0", t: @unexpected_symbol}
+  @unexpected_quote %Ticker.Quote{symbol: @unexpected_symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "200.00", lastSaleSize: 25,
+      lastSaleTime: 1477050375000, lastUpdated: 1477050375000}
 
   setup_all do
     {:ok, _} = Registry.start_link(:unique, :process_registry)
@@ -16,7 +16,7 @@ defmodule Ticker.Quote.Processor.Test do
   test "get historical" do
     {:ok, _} = Ticker.Symbol.start_link(@symbol)
     {:ok, [test_quote|_]} = Ticker.Quote.Processor.historical
-    assert test_quote.t == @symbol
+    assert test_quote.symbol == @symbol
   end
 
   test "get empty historical" do
@@ -26,7 +26,7 @@ defmodule Ticker.Quote.Processor.Test do
   test "get quotes" do
     {:ok, _} = Ticker.Symbol.start_link(@symbol)
     {:ok, [test_quote|_]} = Ticker.Quote.Processor.quotes
-    assert test_quote.t == @symbol
+    assert test_quote.symbol == @symbol
   end
 
   test "get empty quotes" do

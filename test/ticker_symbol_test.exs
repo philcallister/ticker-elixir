@@ -2,18 +2,18 @@ defmodule Ticker.Symbol.Test do
   use ExUnit.Case, async: true
 
   @symbol "TSLA"
-  @quote_start_minute %Ticker.Quote{c: "+1.02", c_fix: "1.02", ccol: "chg", cp: "0.51",
-      cp_fix: "0.51", e: "NASDAQ", id: "12607212", l: "200.12", l_cur: "200.12",
-      l_fix: "200.12", lt: "Oct 21, 11:46AM EDT", lt_dts: "2016-10-21T11:46:15Z",
-      ltt: "11:46AM EDT", pcls_fix: "199.1", s: "0", t: "TSLA"}
-  @quote_same_minute_1 %Ticker.Quote{c: "+1.02", c_fix: "1.02", ccol: "chg", cp: "0.51",
-      cp_fix: "0.51", e: "NASDAQ", id: "12607212", l: "200.12", l_cur: "200.12",
-      l_fix: "200.12", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:15Z",
-      ltt: "11:47AM EDT", pcls_fix: "199.1", s: "0", t: "TSLA"}
-  @quote_same_minute_2 %Ticker.Quote{c: "+1.03", c_fix: "1.03", ccol: "chg", cp: "0.52",
-      cp_fix: "0.52", e: "NASDAQ", id: "12607212", l: "200.12", l_cur: "200.12",
-      l_fix: "200.12", lt: "Oct 21, 11:47AM EDT", lt_dts: "2016-10-21T11:47:20Z",
-      ltt: "11:47AM EDT", pcls_fix: "199.1", s: "0", t: "TSLA"}
+  @quote_start_minute %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "200.12", lastSaleSize: 25,
+      lastSaleTime: 1477050375000, lastUpdated: 1477050375000}
+  @quote_same_minute_1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "200.12", lastSaleSize: 25,
+      lastSaleTime: 1477050435000, lastUpdated: 1477050435000}
+  @quote_same_minute_2 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
+      bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
+      lastSalePrice: "200.12", lastSaleSize: 25,
+      lastSaleTime: 1477050440000, lastUpdated: 1477050440000}
 
   setup_all do
     {:ok, _} = Registry.start_link(:unique, :process_registry)
