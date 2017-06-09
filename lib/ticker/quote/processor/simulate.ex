@@ -1,6 +1,7 @@
 defmodule Ticker.Quote.Processor.Simulate do
 
   use Timex
+  alias Ticker.Quote.Util
 
   @historical_hours 2
   @ticks_per_minute 4
@@ -68,8 +69,8 @@ defmodule Ticker.Quote.Processor.Simulate do
     volume = initial_quote.volume + initial_quote.lastSaleSize
     last_sale_price = initial_quote.lastSalePrice + price
     last_sale_size = sim_pick([25, 50, 75, 100, 200])
-    last_sale_time = Timex.shift(date_time, seconds: sim_pick([-1, 0])) |> to_unix_milli
-    last_updated = to_unix_milli(date_time)
+    last_sale_time = Timex.shift(date_time, seconds: sim_pick([-1, 0])) |> Util.to_unix_milli
+    last_updated = Util.to_unix_milli(date_time)
 
     to_quote = %{@initial_quote |
       marketPercent: market_percent,
@@ -81,7 +82,8 @@ defmodule Ticker.Quote.Processor.Simulate do
       lastSalePrice: last_sale_price,
       lastSaleSize:  last_sale_size,
       lastSaleTime:  last_sale_time,
-      lastUpdated:   last_updated
+      lastUpdated:   last_updated,
+      lastReqTime:   last_updated
     }
 
     Ticker.Quote.as_type(to_quote, :string)
@@ -89,10 +91,6 @@ defmodule Ticker.Quote.Processor.Simulate do
 
   defp sim_pick(pick) do
     Enum.random(pick)
-  end
-
-  defp to_unix_milli(dt) do
-    DateTime.to_unix(Timex.to_datetime(dt), :milliseconds)
   end
 
 end

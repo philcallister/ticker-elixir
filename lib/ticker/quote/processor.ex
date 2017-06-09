@@ -2,6 +2,8 @@ require Logger
 
 defmodule Ticker.Quote.Processor do
 
+  alias Ticker.Quote.Util
+
   def quotes do
     Logger.info("Loading quotes...")
     collect_symbols() |> process
@@ -15,13 +17,18 @@ defmodule Ticker.Quote.Processor do
   def update({:ok, []}), do: Logger.info("No available quotes...")
 
   def update({:ok, quotes}) do
-    Enum.each(quotes, fn(q) ->
+    quotes_updated = Enum.map(quotes, fn(q) ->
       if Ticker.Symbol.get_pid(q.symbol) == :empty do
         Ticker.Security.Supervisor.add_security(q.symbol)
       end
-      Ticker.Symbol.add_quote(q.symbol, q)
+      q_update = case q.lastReqTime do
+        lrt when lrt == nil -> %{q | lastReqTime: Util.to_unix_milli(Timex.now)}
+        _                   -> q
+      end
+      Ticker.Symbol.add_quote(q_update.symbol, q_update)
+      q_update
     end)
-    {:ok, quotes}
+    {:ok, quotes_updated}
   end
 
   def update({:error, msg}) do

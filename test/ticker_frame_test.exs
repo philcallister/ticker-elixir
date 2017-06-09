@@ -5,19 +5,19 @@ defmodule Ticker.Frame.Test do
   @open_quote1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "200.00", lastSaleSize: 25,
-      lastSaleTime: 1477050425000, lastUpdated: 1477050425000}
+      lastSaleTime: 1477050425000, lastUpdated: 1477050425000, lastReqTime: 1477050425000}
   @high_quote1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "202.00", lastSaleSize: 25,
-      lastSaleTime: 1477050430000, lastUpdated: 1477050430000}
+      lastSaleTime: 1477050430000, lastUpdated: 1477050430000, lastReqTime: 1477050430000}
   @skip_quote1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "201.00", lastSaleSize: 25,
-      lastSaleTime: 1477050435000, lastUpdated: 1477050435000}
+      lastSaleTime: 1477050435000, lastUpdated: 1477050435000, lastReqTime: 1477050435000}
   @close_quote1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "199.00", lastSaleSize: 25,
-      lastSaleTime: 1477050440000, lastUpdated: 1477050440000}
+      lastSaleTime: 1477050440000, lastUpdated: 1477050440000, lastReqTime: 1477050440000}
 
   @open_quote2 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,

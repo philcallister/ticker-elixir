@@ -5,11 +5,11 @@ defmodule Ticker.TimeFrame.Test do
   @quote_1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "200.12", lastSaleSize: 25,
-      lastSaleTime: 1477050375000, lastUpdated: 1477050375000}
+      lastSaleTime: 1477050375000, lastUpdated: 1477050375000, lastReqTime: 1477050375000}
   @quote_2 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "200.12", lastSaleSize: 25,
-      lastSaleTime: 1477050440000, lastUpdated: 1477050440000}
+      lastSaleTime: 1477050440000, lastUpdated: 1477050375000, lastReqTime: 1477050440000}
 
   @frame_1 %Ticker.Frame {
     symbol: @symbol,
@@ -17,19 +17,19 @@ defmodule Ticker.TimeFrame.Test do
     open: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "199.00", lastSaleSize: 25,
-      lastSaleTime: 1477050485000, lastUpdated: 1477050485000},
+      lastSaleTime: 1477050485000, lastUpdated: 1477050375000, lastReqTime: 1477050485000},
     high: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "200.00", lastSaleSize: 25,
-      lastSaleTime: 1477050490000, lastUpdated: 1477050490000},
+      lastSaleTime: 1477050490000, lastUpdated: 1477050375000, lastReqTime: 1477050490000},
     low: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "197.00", lastSaleSize: 25,
-      lastSaleTime: 1477050495000, lastUpdated: 1477050495000},
+      lastSaleTime: 1477050495000, lastUpdated: 1477050375000, lastReqTime: 1477050495000},
     close: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "199.00", lastSaleSize: 25,
-      lastSaleTime: 1477050500000, lastUpdated: 1477050500000}
+      lastSaleTime: 1477050500000, lastUpdated: 1477050375000, lastReqTime: 1477050500000}
   }
 
   @frame_2 %Ticker.Frame {
@@ -38,19 +38,19 @@ defmodule Ticker.TimeFrame.Test do
     open: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "199.00", lastSaleSize: 25,
-      lastSaleTime: 1477050545000, lastUpdated: 1477050545000},
+      lastSaleTime: 1477050545000, lastUpdated: 1477050375000, lastReqTime: 1477050545000},
     high: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "202.00", lastSaleSize: 25,
-      lastSaleTime: 1477050550000, lastUpdated: 1477050550000},
+      lastSaleTime: 1477050550000, lastUpdated: 1477050375000, lastReqTime: 1477050550000},
     low: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "199.00", lastSaleSize: 25,
-      lastSaleTime: 1477050555000, lastUpdated: 1477050555000},
+      lastSaleTime: 1477050555000, lastUpdated: 1477050375000, lastReqTime: 1477050555000},
     close: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "201.00", lastSaleSize: 25,
-      lastSaleTime: 1477050560000, lastUpdated: 1477050560000}
+      lastSaleTime: 1477050560000, lastUpdated: 1477050375000, lastReqTime: 1477050560000}
   }
 
   @frame_rolled %Ticker.Frame {
@@ -59,19 +59,19 @@ defmodule Ticker.TimeFrame.Test do
     open: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "199.00", lastSaleSize: 25,
-      lastSaleTime: 1477050485000, lastUpdated: 1477050485000},
+      lastSaleTime: 1477050485000, lastUpdated: 1477050375000, lastReqTime: 1477050485000},
     high: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "202.00", lastSaleSize: 25,
-      lastSaleTime: 1477050550000, lastUpdated: 1477050550000},
+      lastSaleTime: 1477050550000, lastUpdated: 1477050375000, lastReqTime: 1477050550000},
     low: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "197.00", lastSaleSize: 25,
-      lastSaleTime: 1477050495000, lastUpdated: 1477050495000},
+      lastSaleTime: 1477050495000, lastUpdated: 1477050375000, lastReqTime: 1477050495000},
     close: %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "201.00", lastSaleSize: 25,
-      lastSaleTime: 1477050560000, lastUpdated: 1477050560000}
+      lastSaleTime: 1477050560000, lastUpdated: 1477050375000, lastReqTime: 1477050560000}
   }
 
   setup_all do

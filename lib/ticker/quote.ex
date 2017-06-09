@@ -14,6 +14,7 @@ defmodule Ticker.Quote do
   * lastSaleSize:  last sale size of the stock on IEX.
   * lastSaleTime:  last sale time in epoch time of the stock on IEX.
   * lastUpdated:   the last update time of the data in milliseconds since midnight Jan 1, 1970 or -1. If the value is -1, IEX has not quoted the symbol in the trading day.
+  * lastReqTime:   time of last request. This isn't returned from IEX but is used for interval framing
   """
 
   @derive [Poison.Encoder]
@@ -28,7 +29,8 @@ defmodule Ticker.Quote do
     :lastSalePrice,
     :lastSaleSize,
     :lastSaleTime,
-    :lastUpdated
+    :lastUpdated,
+    :lastReqTime
   ]
 
   def is_a_quote?(%Ticker.Quote{}), do: true
@@ -51,7 +53,8 @@ defmodule Ticker.Quote do
       lastSalePrice:  type_fn.(ticker_quote.lastSalePrice, false, 3),
       lastSaleSize:   ticker_quote.lastSaleSize,
       lastSaleTime:   ticker_quote.lastSaleTime,
-      lastUpdated:    ticker_quote.lastUpdated
+      lastUpdated:    ticker_quote.lastUpdated,
+      lastReqTime:    ticker_quote.lastReqTime
     }
 
   end

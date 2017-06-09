@@ -5,15 +5,15 @@ defmodule Ticker.Symbol.Test do
   @quote_start_minute %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "200.12", lastSaleSize: 25,
-      lastSaleTime: 1477050375000, lastUpdated: 1477050375000}
+      lastSaleTime: 1477050375000, lastUpdated: 1477050375000, lastReqTime: 1477050375000}
   @quote_same_minute_1 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "200.12", lastSaleSize: 25,
-      lastSaleTime: 1477050435000, lastUpdated: 1477050435000}
+      lastSaleTime: 1477050435000, lastUpdated: 1477050435000, lastReqTime: 1477050435000}
   @quote_same_minute_2 %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "200.12", lastSaleSize: 25,
-      lastSaleTime: 1477050440000, lastUpdated: 1477050440000}
+      lastSaleTime: 1477050440000, lastUpdated: 1477050440000, lastReqTime: 1477050440000}
 
   setup_all do
     {:ok, _} = Registry.start_link(:unique, :process_registry)

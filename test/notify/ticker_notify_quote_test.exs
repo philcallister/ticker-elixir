@@ -5,7 +5,7 @@ defmodule Ticker.Notify.Quote.Test do
   @quote %Ticker.Quote{symbol: @symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "199.00", lastSaleSize: 25,
-      lastSaleTime: 1477050485000, lastUpdated: 1477050485000}
+      lastSaleTime: 1477050485000, lastUpdated: 1477050485000, lastReqTime: 1477050485000}
 
   def notify_quote_test_callback(quote) do
     assert quote == [@quote]

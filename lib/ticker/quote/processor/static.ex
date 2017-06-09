@@ -11,7 +11,8 @@ defmodule Ticker.Quote.Processor.Static do
     lastSalePrice: "140.50",
     lastSaleSize:  "100",
     lastSaleTime:  1477050375000,
-    lastUpdated:   1477050375000
+    lastUpdated:   1477050375000,
+    lastReqTime:   1477050375000
   }
 
   @doc "Process the given symbols (@see Ticker.Quote.Processor.Behaviour.process). Used for testing"

@@ -6,7 +6,7 @@ defmodule Ticker.Quote.Processor.Test do
   @unexpected_quote %Ticker.Quote{symbol: @unexpected_symbol, marketPercent: "0.01024", bidSize: 100,
       bidPrice: "201.90", askSize: 100, askPrice: "202.10", volume: 33621,
       lastSalePrice: "200.00", lastSaleSize: 25,
-      lastSaleTime: 1477050375000, lastUpdated: 1477050375000}
+      lastSaleTime: 1477050375000, lastUpdated: 1477050375000, lastReqTime: 1477050375000}
 
   setup_all do
     {:ok, _} = Registry.start_link(:unique, :process_registry)
@@ -33,7 +33,7 @@ defmodule Ticker.Quote.Processor.Test do
     assert Ticker.Quote.Processor.quotes == {:empty}
   end
 
-  test "symbol updated" do
+  test "quote updated" do
     {:ok, _} = Ticker.Symbol.start_link(@symbol)
     {:ok, [test_quote|_]} = Ticker.Quote.Processor.quotes
     assert Ticker.Symbol.get_quote(@symbol) == test_quote

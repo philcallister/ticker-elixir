@@ -66,7 +66,7 @@ defmodule Ticker.Symbol do
   end
 
   defp set_quotes(quote, minute) do
-    quote_time = Timex.from_unix(quote.lastUpdated, :millisecond)
+    quote_time = Timex.from_unix(quote.lastReqTime, :millisecond)
     cond do
       minute == nil -> {:update, quote_time.minute}
       quote_time.minute != minute -> {:reset, quote_time.minute}
