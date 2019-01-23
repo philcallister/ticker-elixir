@@ -9,7 +9,7 @@ defmodule Ticker.Quote.Processor.Test do
       lastSaleTime: 1477050375000, lastUpdated: 1477050375000, lastReqTime: 1477050375000}
 
   setup_all do
-    {:ok, _} = Registry.start_link(keys: :unique, name: Ticker.Registry)
+    Registry.start_link(keys: :duplicate, name: Ticker.Registry)
     :ok
   end
 
