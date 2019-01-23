@@ -3,9 +3,10 @@ defmodule Ticker.Quote.Processor.Simulate do
   use Timex
   alias Ticker.Quote.Util
 
+  @behaviour Ticker.Quote.Processor.Behaviour
+
   @historical_hours 2
   @ticks_per_minute 4
-  @behaviour Ticker.Quote.Processor.Behaviour
   @initial_quote %Ticker.Quote{
     marketPercent: "0.0196",
     bidSize:       100,
@@ -24,12 +25,14 @@ defmodule Ticker.Quote.Processor.Simulate do
   end
 
   @doc "Process the given symbols (@see Ticker.Quote.Processor.Behaviour.process}. Used for simulating quotes"
+  @impl Ticker.Quote.Processor.Behaviour
   def process(symbols) do
     quotes = process(symbols, Timex.now)
     {:ok, quotes}
   end
 
   @doc "Simulated historical quotes (@see Ticker.Quote.Processor.Behaviour.historical)"
+  @impl Ticker.Quote.Processor.Behaviour
   def historical(symbols) do
     dt = Timex.shift(Timex.now, hours: -@historical_hours)
     quotes = Interval.new(from: dt, until: [hours: @historical_hours], step: [minutes: 1])

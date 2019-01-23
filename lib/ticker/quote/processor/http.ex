@@ -5,6 +5,7 @@ defmodule Ticker.Quote.Processor.HTTP do
   @behaviour Ticker.Quote.Processor.Behaviour
 
   @doc "Process the given symbols (@see Ticker.Quote.Processor.Behaviour.process}"
+  @impl Ticker.Quote.Processor.Behaviour
   def process(symbols) do
     symbols
       |> fetch
@@ -12,6 +13,7 @@ defmodule Ticker.Quote.Processor.HTTP do
   end
 
   @doc "Currently historical not implemented here (@see Ticker.Quote.Processor.Behaviour.historical)"
+  @impl Ticker.Quote.Processor.Behaviour
   def historical(_), do: []
 
   defp fetch(symbols) do
