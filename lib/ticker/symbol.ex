@@ -40,9 +40,7 @@ defmodule Ticker.Symbol do
   ## Server callbacks
 
   def init({:ok, name}) do
-    # @@@@@
     Registry.register(Ticker.Registry, __MODULE__, name)
-
     {:ok, %{:symbol => name, :quote => %Ticker.Quote{}, :quotes => [], :minute => nil}}
   end
 
