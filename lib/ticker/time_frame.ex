@@ -7,31 +7,35 @@ defmodule Ticker.TimeFrame do
 
   def start_link(name, {interval, frame_count, next_intervals}) do
     Logger.info("Starting Frame: #{interval}")
-    GenServer.start_link(__MODULE__, {:ok, {name, interval, frame_count, next_intervals}}, name: via_tuple({name, interval}))
+    GenServer.start_link(__MODULE__, {:ok, {name, interval, frame_count, next_intervals}})
+  end
+
+  def get_pid({name, interval}) do
+    case Registry.match(Ticker.Registry, __MODULE__, {name, interval}) do
+      [] -> :empty
+      [{pid, _}] -> pid
+    end
   end
 
   def rollup_quotes(name, quotes) do
-    GenServer.cast(via_tuple({name, 1}), {:rollup_quotes, quotes})
+    GenServer.cast(get_pid({name, 1}), {:rollup_quotes, quotes})
   end
 
   def rollup_frames(name, interval, frames) do
-    GenServer.cast(via_tuple({name, interval}), {:rollup_frames, frames})
+    GenServer.cast(get_pid({name, interval}), {:rollup_frames, frames})
   end
 
   # TODO: Create a module that exposes a facade-like interface to all externally
   # facing functionallity. This should be in that interface
   def get_frames(name, interval) do
-    GenServer.call(via_tuple({name, interval}), :get_frames)
-  end
-
-  defp via_tuple({name, interval}) do
-    {:via, Registry, {:process_registry, {__MODULE__, name, interval}}}
+    GenServer.call(get_pid({name, interval}), :get_frames)
   end
 
 
   ## Server callbacks
 
   def init({:ok, {name, interval, frame_count, next_intervals}}) do
+    Registry.register(Ticker.Registry, __MODULE__, {name, interval})
     table_name = ets_table_name(name, interval)
     :ets.new(table_name, [:ordered_set, :protected, :named_table])
     {:ok, %{:name => name, :interval => interval, :frame_count => frame_count, :next_intervals => next_intervals, :frames => [], :frame_key => 0}}
@@ -67,7 +71,7 @@ defmodule Ticker.TimeFrame do
   end
 
   def handle_call(:get_frames, _from, state) do
-    records = :ets.match_object(ets_table_name(state[:name], state[:interval]), {:"_", :"_"})
+    records = :ets.match_object(ets_table_name(state[:name], state[:interval]), {:_, :_})
     frames = Enum.map(records, fn({_, frame}) -> frame end)
     {:reply, frames, state}
   end
@@ -98,7 +102,7 @@ defmodule Ticker.TimeFrame.Supervisor do
 
   def start_link(name) do
     Logger.info("Starting Frame Supervisor: #{name}")
-    {:ok, pid} = Supervisor.start_link(__MODULE__, {:ok}, name: via_tuple(name))
+    {:ok, pid} = Supervisor.start_link(__MODULE__, {:ok, name})
     Enum.each(@intervals, fn(interval) -> Supervisor.start_child(pid, [name, interval]) end)
     {:ok, pid}
   end
@@ -107,14 +111,11 @@ defmodule Ticker.TimeFrame.Supervisor do
     @intervals
   end
 
-  defp via_tuple(name) do
-    {:via, Registry, {:process_registry, {__MODULE__, name}}}
-  end
-
 
   ## Server callbacks
 
-  def init({:ok}) do
+  def init({:ok, name}) do
+    Registry.register(Ticker.Registry, __MODULE__, name)
     children = [
       worker(Ticker.TimeFrame, [])
     ]

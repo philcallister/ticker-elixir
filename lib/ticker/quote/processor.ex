@@ -36,7 +36,7 @@ defmodule Ticker.Quote.Processor do
   end
 
   defp collect_symbols do
-    symbol_servers = Registry.match(:process_registry, {Ticker.Symbol, :_}, :_)
+    symbol_servers = Registry.match(Ticker.Registry, Ticker.Symbol, :_)
     Enum.map(symbol_servers, fn({ss, _}) -> Ticker.Symbol.get_symbol(ss) end)
   end
 

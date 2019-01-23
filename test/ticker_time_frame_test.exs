@@ -75,7 +75,7 @@ defmodule Ticker.TimeFrame.Test do
   }
 
   setup_all do
-    {:ok, _} = Registry.start_link(:unique, :process_registry)
+    {:ok, _} = Registry.start_link(keys: :duplicate, name: Ticker.Registry)
     :ok
   end
 
@@ -84,7 +84,7 @@ defmodule Ticker.TimeFrame.Test do
 
   test "init supervisor" do
     {:ok, pid} = Ticker.TimeFrame.Supervisor.start_link(@symbol)
-    time_frame_pids = Registry.match(:process_registry, {Ticker.TimeFrame, :_, :_}, :_)
+    time_frame_pids = Registry.match(Ticker.Registry, Ticker.TimeFrame, :_)
     assert length(time_frame_pids) == length(Ticker.TimeFrame.Supervisor.intervals)
     Enum.each(time_frame_pids, fn({tfp, _}) -> is_pid(tfp) end)
     GenServer.stop(pid)
@@ -96,7 +96,7 @@ defmodule Ticker.TimeFrame.Test do
 
   test "init" do
     Ticker.TimeFrame.start_link(@symbol, {1, :none, [2,5]})
-    [{time_frame_pid, _} | _] = Registry.match(:process_registry, {Ticker.TimeFrame, :_, :_}, :_)
+    [{time_frame_pid, _} | _] = Registry.match(Ticker.Registry, Ticker.TimeFrame, :_)
     assert is_pid(time_frame_pid)
   end
 

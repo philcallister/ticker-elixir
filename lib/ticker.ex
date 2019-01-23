@@ -15,7 +15,7 @@ defmodule Ticker do
     frequency = Application.get_env(:ticker, :frequency, 60_000)
 
     children = [
-      supervisor(Registry, [:unique, :process_registry]),
+      supervisor(Registry, [:duplicate, Ticker.Registry]),
       supervisor(Ticker.Security.Supervisor, []),
       worker(Ticker.Periodic.Periodically, [&Ticker.Periodic.Timer.quotes/1, frequency]),
       worker(Ticker.Notify.Frame, [])

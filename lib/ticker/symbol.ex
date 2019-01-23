@@ -10,11 +10,11 @@ defmodule Ticker.Symbol do
 
   def start_link(name) do
     Logger.info("Starting Symbol: #{name}")
-    GenServer.start_link(__MODULE__, {:ok, name}, name: via_tuple(name))
+    GenServer.start_link(__MODULE__, {:ok, name})
   end
 
   def get_pid(name) do
-    case Registry.lookup(:process_registry, {__MODULE__, name}) do
+    case Registry.match(Ticker.Registry, __MODULE__, name) do
       [] -> :empty
       [{pid, _}] -> pid
     end
@@ -25,25 +25,24 @@ defmodule Ticker.Symbol do
   end
 
   def get_symbol(name) do
-    GenServer.call(via_tuple(name), :get_symbol)
+    GenServer.call(get_pid(name), :get_symbol)
   end
 
   def get_quote(name) do
-    GenServer.call(via_tuple(name), :get_quote)
+    GenServer.call(get_pid(name), :get_quote)
   end
 
   def add_quote(name, quote) when is_map(quote) do
-    GenServer.cast(via_tuple(name), {:add_quote, quote})
-  end
-
-  defp via_tuple(name) do
-    {:via, Registry, {:process_registry, {__MODULE__, name}}}
+    GenServer.cast(get_pid(name), {:add_quote, quote})
   end
 
 
   ## Server callbacks
 
   def init({:ok, name}) do
+    # @@@@@
+    Registry.register(Ticker.Registry, __MODULE__, name)
+
     {:ok, %{:symbol => name, :quote => %Ticker.Quote{}, :quotes => [], :minute => nil}}
   end
 
@@ -81,17 +80,14 @@ defmodule Ticker.Symbol.Supervisor do
 
   def start_link(name) do
     Logger.info("Starting Symbol Supervisor: #{name}")
-    Supervisor.start_link(__MODULE__, {:ok, name}, name: via_tuple(name))
-  end
-
-  defp via_tuple(name) do
-    {:via, Registry, {:process_registry, {__MODULE__, name}}}
+    Supervisor.start_link(__MODULE__, {:ok, name})
   end
 
 
   ## Server callbacks
 
   def init({:ok, name}) do
+    Registry.register(Ticker.Registry, __MODULE__, name)
     children = [
       supervisor(Ticker.TimeFrame.Supervisor, [name]),
       worker(Ticker.Symbol, [name])

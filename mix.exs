@@ -4,13 +4,13 @@ defmodule Ticker.Mixfile do
   def project do
     [app: :ticker,
      version: "0.1.0",
-     elixir: "~> 1.4",
+     elixir: "~> 1.8",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      aliases: [test: "test --no-start"],
      deps: deps(),
      test_coverage: [tool: ExCoveralls],
-     preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]]
+     preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]]
   end
 
   # Configuration for the OTP application
@@ -33,11 +33,11 @@ defmodule Ticker.Mixfile do
   # Type "mix help deps" for more examples and options
   def deps do
     [
-      {:timex, "~> 3.1"},
-      {:poison, "~> 3.1"},
-      {:httpoison, "~> 0.11.0"},
-      {:excoveralls, "~> 0.5", only: :test},
-      {:mock, "~> 0.2.0", only: :test}
+      {:timex, "~> 3.4"},
+      {:poison, "~> 4.0"},
+      {:httpoison, "~> 1.5"},
+      {:excoveralls, "~> 0.10", only: :test},
+      {:mock, "~> 0.3.0", only: :test}
     ]
   end
 

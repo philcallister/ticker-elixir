@@ -16,7 +16,7 @@ defmodule Ticker.Symbol.Test do
       lastSaleTime: 1477050440000, lastUpdated: 1477050440000, lastReqTime: 1477050440000}
 
   setup_all do
-    {:ok, _} = Registry.start_link(:unique, :process_registry)
+    {:ok, _} = Registry.start_link(keys: :duplicate, name: Ticker.Registry)
     :ok
   end
 
@@ -25,9 +25,9 @@ defmodule Ticker.Symbol.Test do
 
   test "init supervisor" do
     {:ok, _} = Ticker.Symbol.Supervisor.start_link(@symbol)
-    [{symbol_pid, _} | _] = Registry.match(:process_registry, {Ticker.Symbol, :_}, :_)
+    [{symbol_pid, _} | _] = Registry.match(Ticker.Registry, Ticker.Symbol, :_)
     assert is_pid(symbol_pid)
-    [{time_frame_pid, _} | _] = Registry.match(:process_registry, {Ticker.TimeFrame.Supervisor, :_}, :_)
+    [{time_frame_pid, _} | _] = Registry.match(Ticker.Registry, Ticker.TimeFrame.Supervisor, :_)
     assert is_pid(time_frame_pid)
   end
 
@@ -37,7 +37,7 @@ defmodule Ticker.Symbol.Test do
 
   test "init" do
     {:ok, _} = Ticker.Symbol.start_link(@symbol)
-    [{symbol_pid, _} | _] = Registry.match(:process_registry, {Ticker.Symbol, :_}, :_)
+    [{symbol_pid, _} | _] = Registry.match(Ticker.Registry, Ticker.Symbol, :_)
     assert is_pid(symbol_pid)
   end
 

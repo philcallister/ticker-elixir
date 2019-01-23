@@ -2,7 +2,7 @@ defmodule Ticker.Security.Supervisor.Test do
   use ExUnit.Case, async: false
 
   setup_all do
-    {:ok, _} = Registry.start_link(:unique, :process_registry)
+    {:ok, _} = Registry.start_link(keys: :duplicate, name: Ticker.Registry)
     :ok
   end
 
