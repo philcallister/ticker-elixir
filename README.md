@@ -4,7 +4,7 @@
 # ticker-elixir
 
 **ticker-elixir** is an example Elixir OTP app which periodically pulls quotes for configured symbols. In this example, quotes are
-pulled from the IEX Group, TOPS API. Additionly, quotes can be simulated (the current default). Retrieved quotes are stored within individual symbol GenServers.
+pulled from the IEX Group, TOPS API. Additionally, quotes can be simulated (the current default). Retrieved quotes are stored within individual symbol GenServers.
 These quotes are then rolled up into time-frame intervals using ETS tables, stored within additional GenServers, all supervised by OTP.
 
 To broadcast quote/time-frame information, callbacks can be configured to notify of updates. These callbacks are how the
