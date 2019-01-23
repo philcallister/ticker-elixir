@@ -75,7 +75,7 @@ defmodule Ticker.TimeFrame.Test do
   }
 
   setup_all do
-    {:ok, _} = Registry.start_link(keys: :duplicate, name: Ticker.Registry)
+    Registry.start_link(keys: :duplicate, name: Ticker.Registry)
     :ok
   end
 
